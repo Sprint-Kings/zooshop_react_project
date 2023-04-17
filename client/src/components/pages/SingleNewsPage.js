@@ -3,6 +3,8 @@ import {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import useZooService from '../../services/ZooService';
 
+import NewsCart from '../newsCart/NewsCart';
+
 const SingleNewsPage = () => {
     const {newsId} = useParams();
     const [news, setNews] = useState(null);
@@ -41,15 +43,27 @@ const View = ({news}) => {
     const {title, author, data, thumbnail, description} = news;
 
     return (
-        <ul>
-            <li>
-                <img src={thumbnail} alt={title}/>
-                <p>{title}</p>
-                <p>{author}</p>
-                <p>{data}</p>
-                <p>{description}</p>
-            </li>
-        </ul>
+        <div>
+            <img src={thumbnail} alt={title} style={{width: '100%', height: '500px', objectFit: 'none'}}/>
+            <div style={{width: '50%', margin: '0 auto', marginTop: '100px'}}>
+                <h1>{title}</h1>
+                <h3 style={{whiteSpace: 'normal'}}>{author}    &bull;  {data}</h3>
+                
+                
+                <p style={{fontSize: '20px', whiteSpace: 'pre-line'}}>{description}</p>
+            </div>
+            <h1 style={{textAlign: 'center', margin: '50px'}}>Читайте также</h1>
+            <div style={{display: 'flex', 
+                justifyContent: 'center', 
+                height: '300px', 
+                width: '50%', 
+                margin: '0 auto', marginBottom: '50px'}}>
+                <NewsCart id={1}/>
+                <NewsCart id={1}/>
+                <NewsCart id={1}/>
+            </div>
+                    
+        </div>
     )
 }
 

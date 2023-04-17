@@ -20,6 +20,7 @@ const Carousel = (props) => {
             setCurrentIndex(prevState => prevState - 1)
 
     }
+    
 // Set the length to match current children from props
     
     return (
@@ -32,7 +33,7 @@ const Carousel = (props) => {
                     </button>
                 }
                 {
-                    currentIndex < (length - 5) &&
+                    currentIndex < (length - 4) &&
                     <button onClick={next} className="right-arrow">
                         &gt;
                     </button>
@@ -41,7 +42,8 @@ const Carousel = (props) => {
                 
                 <div
                     className="carousel-content"
-                    style={{ transform: `translateX(-${currentIndex * 20}%)` }}>
+                    style={{ transform: `translateX(-${currentIndex * 25}%)` }}
+                    >
                     {children}
                 </div>
                 
@@ -50,5 +52,4 @@ const Carousel = (props) => {
         </div>
     )
 }
-
 export default Carousel

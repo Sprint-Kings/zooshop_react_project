@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import useZooService from '../../services/ZooService';
 
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -29,13 +30,15 @@ const NewsCart = ({id}) => {
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = loading ? <Spinner/> : null;
     const content = !(loading || error || !news) ? <View news={news}/> : null;
-
+    
     return (
-        <div className="cart-container">
+        <Link to={content ? `/news/${id}` : null} style={{ textDecoration: 'none', color: 'black'}}>
+        <div className="news-cart-container">
             {errorMessage}
             {spinner}
             {content}
         </div>
+        </Link>
     )  
 }
 
@@ -43,8 +46,12 @@ const View = ({news}) => {
     const {title, thumbnail} = news;
     return (
         <>
-            <img src={thumbnail} style={{width: '60%'}}></img>
-            <p>{title}</p>
+            <div className='news-cart-column-1'>
+                <img src={thumbnail} alt={title}></img>
+            </div>
+            <div className='news-cart-column-2'>
+                <p>{title.length > 30 ? title.slice(0,30)+'...' : title}</p>
+            </div>
         </>
     )
 }

@@ -14,22 +14,22 @@ const MainPage = () => {
         <div>   
             <HeaderImage/>
             <BigStory/>
-            <div style={{width: '75%', margin: '0 auto'}}>
-            <h1>Читайте</h1>
-            <Carousel>
-                <Link to={`/news/1`}><NewsCart id={1}/></Link>
-                <Link to={`/news/2`}><NewsCart id={2}/></Link>
-                <Link to={`/news/3`}><NewsCart id={3}/></Link>
-
-
-            </Carousel>
-            <Carousel>
-                <Link to={`/product/1`}><ProductCart/></Link>
-                <Link to={`/product/2`}><ProductCart/></Link>
-                <Link to={`/news/2`}><ProductCart/></Link>
-                <Link to={`/news/2`}><ProductCart/></Link>
-                <Link to={`/news/2`}><ProductCart/></Link>
-            </Carousel>
+            <div style={{width: '80%', margin: '0 auto', marginTop: '100px'}}>
+                <h1>Читайте</h1>
+                <Carousel>
+                    <NewsCart id={1}/>
+                    <NewsCart id={2}/>
+                    <NewsCart id={3}/>
+                    <NewsCart id={4}/>
+                    <NewsCart id={5}/>
+                    <NewsCart id={5}/>
+                </Carousel>
+                <Carousel>
+                    <ProductCart id={1}/>
+                    <ProductCart id={2}/>
+                    <ProductCart id={3}/>
+                    <ProductCart id={4}/>
+                </Carousel>
             </div>
         </div>
     )

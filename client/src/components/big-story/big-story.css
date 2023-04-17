@@ -8,6 +8,22 @@
     background-color: #fff;
     text-align: left;
     border-radius: 15px;
+    transition: all 0.7s;
+
+}
+
+.container-big-story > img {
+    border-radius: 15px;
+}
+
+.container-big-story > span {
+    left: 50%;
+}
+.container-big-story:hover {
+    -webkit-box-shadow: -11px -6px 37px 3px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: -11px -6px 37px 3px rgba(34, 60, 80, 0.2);
+    box-shadow: -11px -6px 37px 3px rgba(34, 60, 80, 0.2);
+    transform: translateY(-10px);
 }
 
 .container-big-story-column-1 {

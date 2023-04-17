@@ -33,9 +33,12 @@ const BigStory= () => {
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = loading ? <Spinner/> : null;
     const content = !(loading || error || !news) ? <View news={news}/> : null;
-
+    let style = {textDecoration: 'none', color: 'black'}
+    if (spinner) {
+        style = {textDecoration: 'none', color: 'black', height: '600px'}
+    }
     return (
-        <Link className='container-big-story' to={content ? `/news/${id}` : null} style={{ textDecoration: 'none', color: 'black'}}> 
+        <Link className='container-big-story' to={content ? `/news/${id}` : null} style={style}> 
             {errorMessage}
             {spinner}
             {content}
