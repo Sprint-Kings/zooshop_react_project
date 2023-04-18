@@ -8,14 +8,12 @@ import Spinner from '../spinner/Spinner';
 import './productCart.css';
 
 const ProductCart = ({id}) => {
-
     const [product, setProduct] = useState(null);
-
+    
     const {loading, error, getProduct, clearError} = useZooService();
     
     useEffect(() => {
         updateProduct();
-        console.log(product)
     }, [])
 
     const updateProduct = () => {
@@ -34,7 +32,7 @@ const ProductCart = ({id}) => {
 
     return (
         <Link to={content ? `/product/${id}` : null} style={{ textDecoration: 'none', color: 'black'}}>
-        <div className="cart-container">
+        <div className="product-cart-container">
             {errorMessage}
             {spinner}
             {content}
@@ -44,17 +42,23 @@ const ProductCart = ({id}) => {
 }
 
 const View = ({product}) => {
-    const {name, thumbnail, category} = product;
-    return (
+    const {name, thumbnail, weight, color, price} = product;
+
+    const container = color ? color.map((item, i) => <span key={i} className='product-cart-circle' style={{background: item}}></span>) : weight.map((item , i) => {if (item) {return <p key={i}>{item}</p>}});
+    return (   
         <>
-            <img src={thumbnail} style={{width: '60%'}} alt={name}></img>
-            <div className='color-container'>
-                <span className='circle'></span>
-                <span className='cirlce'></span>
-                <span className='circle'></span>
+            <div className='product-cart-column-1'>
+                <img src={thumbnail} style={{width: '60%'}} alt={name}></img>
             </div>
+            <div className='color-container'>
+                {container}
+            </div>
+            <div className='product-cart-column-2'>
             <p>{name}</p>
-            <p>{category}</p>
+            </div>
+            <div className='product-cart-column-3'>
+            <h4>{price[0]} &#8381;</h4>
+            </div>
         </>
     )
 }

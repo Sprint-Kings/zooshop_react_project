@@ -44,7 +44,7 @@ const View = ({news}) => {
 
     return (
         <div>
-            <img src={thumbnail} alt={title} style={{width: '100%', height: '500px', objectFit: 'none'}}/>
+            <img src={thumbnail} alt={title} style={{width: '100%', height: '800px', objectFit: 'cover'}}/>
             <div style={{width: '50%', margin: '0 auto', marginTop: '100px'}}>
                 <h1>{title}</h1>
                 <h3 style={{whiteSpace: 'normal'}}>{author}    &bull;  {data}</h3>

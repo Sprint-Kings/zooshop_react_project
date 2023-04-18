@@ -1,0 +1,23 @@
+.category-page-container {
+    margin-top: 100px;
+    width: 100%;
+    display: flex;
+}
+
+.category-page-column-1 {
+    display: flex;
+    flex: 0 1 30%;
+    justify-content: center;
+}
+
+.category-page-column-2 {
+    display: flex;
+    flex: 0 1 70%;
+    flex-wrap: wrap;
+
+}
+
+.category-page-column-2 > * {
+    width: 25%;
+
+}

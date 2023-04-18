@@ -2,7 +2,9 @@ import CategoryPage from "../CategoryPage/CategoryPage";
 
 const DryFood = () => {
     return (
+        <div>
         <CategoryPage/>
+        </div>
     )
 }
 

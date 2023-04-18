@@ -1,0 +1,14 @@
+.brand-filter-container {
+    padding: 15px;
+    width: 80%;
+    background-color: #2A556C;
+    color: white;
+    border-radius: 15px;
+}
+
+.brand-filter-color-container {
+    display: flex;
+    justify-content:baseline;
+    flex-wrap: wrap;
+}
+

@@ -25,13 +25,20 @@ const useZooService = () => {
             description: product.description ? `${product.description.slice(0, 210)}...` : 'There is no description for this product',
             thumbnail: product.thumbnail,
             color: product.color,
+            brand: product.brand,
+            in_stock: product.in_stock,
             category: product.category,
-            price_sm: product.price_small,
-            price_md: product.price_medium,
-            price_l: product.price_large,
-            weight_sm: product.weight_small,
-            weight_md: product.weight_medium,
-            weight_l: product.weight_large
+            price: [
+                product.price_small,
+                product.price_medium,
+                product.price_large,
+            ],
+            weight: [
+                product.weight_small,
+                product.weight_medium,
+                product.weight_large
+            ],
+            
         }
     }
 

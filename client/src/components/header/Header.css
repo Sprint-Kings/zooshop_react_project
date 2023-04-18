@@ -9,7 +9,7 @@
     top: 0;
     left: 0;
     font-family: 'Scada',  sans-serif;
-    
+    z-index: 2;
 }
 
 
