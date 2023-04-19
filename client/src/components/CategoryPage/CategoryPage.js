@@ -12,12 +12,19 @@ const CategoryPage = () => {
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(1);
     const [productEnded, setProductEnded] = useState(false);
-    
+    const [filter, setFilter] = useState(null);
+
     const {getAllProducts} = useZooService();
 
     useEffect(() => {
         onRequest(offset, true);
     }, [])
+
+    useEffect(() => {
+        const p = renderBrand(productList, filter);
+        console.log(productList);
+        setProductList(p)
+    }, [filter])
 
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
@@ -31,8 +38,9 @@ const CategoryPage = () => {
         if (newProductList.length < 3) {
             ended = true;
         }
+        const brand = renderBrand(newProductList, filter)
 
-        setProductList(productList => [...productList, ...newProductList]);
+        setProductList(productList => [...productList, ...brand]);
         setNewItemLoading(false);
         setOffset(offset => offset + 3);
         setProductEnded(ended);
@@ -53,9 +61,12 @@ const CategoryPage = () => {
     }
     
     function renderBrand(arr, brand) {
+        if (brand === null) {
+            return arr
+        }
         const items =  arr.filter(item => item.brand === brand)
         console.log(items)
-        setProductList(items)
+        return(items)
          
     }
     const items = renderItems(productList);
@@ -75,7 +86,7 @@ const CategoryPage = () => {
                 <div>load more</div>
             </button>
             <button 
-                onClick={() => renderBrand(productList, 'Grandin')}>
+                onClick={() => setFilter('Grandin')}>
                 <div>change brand</div>
             </button>
         </div>
