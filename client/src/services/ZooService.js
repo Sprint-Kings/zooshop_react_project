@@ -9,7 +9,6 @@ const useZooService = () => {
     
     const getAllProducts = async (offset = _baseOffset, limit = _baseLimit) => {
         const res = await request(`${_apiBase}products/${limit}/${offset}`);
-        console.log(res)
         return res.map(_transformProduct)
     }   
 

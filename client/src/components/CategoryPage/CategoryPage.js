@@ -12,7 +12,7 @@ const CategoryPage = () => {
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(1);
     const [productEnded, setProductEnded] = useState(false);
-    const [filter, setFilter] = useState(null);
+    const [filter, setFilter] = useState([]);
 
     const {getAllProducts} = useZooService();
 
@@ -22,9 +22,32 @@ const CategoryPage = () => {
 
     useEffect(() => {
         const p = renderBrand(productList, filter);
-        console.log(productList);
+        console.log(p)
         setProductList(p)
     }, [filter])
+
+    const updateFilter = (singleFilter) => {
+        const index = filter.indexOf(singleFilter)
+        if (index !== -1) {
+            const sliceFilter = [...filter.slice(0, index), ...filter.slice(index + 1)]
+            if (sliceFilter.length === 0) {
+                setFilter([])
+
+            } else {
+                setFilter(sliceFilter)
+                
+            }
+        } else {
+            console.log('hier')
+            const addFilter = [...filter, singleFilter]
+            
+           
+            setFilter(addFilter)
+            
+           
+        }
+        
+    }
 
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
@@ -39,17 +62,21 @@ const CategoryPage = () => {
             ended = true;
         }
         const brand = renderBrand(newProductList, filter)
-
+        console.log(brand)
         setProductList(productList => [...productList, ...brand]);
+        
         setNewItemLoading(false);
         setOffset(offset => offset + 3);
         setProductEnded(ended);
     }
 
     function renderItems(arr) {
+        
         const items =  arr.map((item, i) => { 
             return (
-                <ProductCart id={item.id}/>
+                <div key={item.id}>
+                    <ProductCart id={item.id}/>
+                </div>
             )
         });
 
@@ -61,20 +88,31 @@ const CategoryPage = () => {
     }
     
     function renderBrand(arr, brand) {
-        if (brand === null) {
+        if (brand.length === 0) {
+            console.log('return')
+            console.log(arr)
+            console.log(brand)
             return arr
-        }
-        const items =  arr.filter(item => item.brand === brand)
-        console.log(items)
-        return(items)
-         
-    }
-    const items = renderItems(productList);
+        } else {
+            let sortedList =[]
+        
+            brand.map(brandItem => {
+                return arr.map(item => {
+                    if (brandItem === item.brand) {
+                        sortedList.push(item)
+                    }
+                })
 
+        })
+        return(sortedList)  
+        }
+    }
+
+    const items = renderItems(productList);
     return (
         <div className='category-page-container'>
             <div className='category-page-column-1'>
-                <ColorFilter/>
+                <ColorFilter updateFilter={updateFilter}/>
             </div>
             <div className='category-page-column-2'>
                 {items}
@@ -86,8 +124,8 @@ const CategoryPage = () => {
                 <div>load more</div>
             </button>
             <button 
-                onClick={() => setFilter('Grandin')}>
-                <div>change brand</div>
+                onClick={() => setFilter(['Grandin','Ownat'])}>
+                <div>change</div>
             </button>
         </div>
     )

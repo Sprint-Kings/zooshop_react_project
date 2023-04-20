@@ -32,7 +32,7 @@ const ProductCart = ({id}) => {
 
     return (
         <Link to={content ? `/product/${id}` : null} style={{ textDecoration: 'none', color: 'black'}}>
-        <div className="product-cart-container">
+        <div  className="product-cart-container">
             {errorMessage}
             {spinner}
             {content}

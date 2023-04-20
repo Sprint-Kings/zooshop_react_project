@@ -29,14 +29,16 @@ router.get("/product/:productId", async (req, res) => {
 
 router.get("/products/:limit/:offset", async (req, res) => {
     limit = req.params.limit;
-    offset = req.params.offset-1;
+    offset = req.params.offset;
     const products = await knex
         .select("*")
         .from("products")
         .leftJoin('categories', 'products.categoryid', 'categories.category_id')
         .leftJoin('prices', 'products.product_id', 'prices.productid')
+        .offset(offset-1)
         .limit(limit)
-        .offset(offset)
+        .orderBy('products.product_id')
+        
     res.json(products);
 })
 
