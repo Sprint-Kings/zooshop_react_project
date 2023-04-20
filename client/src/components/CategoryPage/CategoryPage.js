@@ -33,8 +33,7 @@ const CategoryPage = () => {
         if (index !== -1) {
             const sliceFilter = [...filter.slice(0, index), ...filter.slice(index + 1)]
             if (sliceFilter.length === 0) {
-                setFilter([])
-
+                setProductList(fullProductList)
             } else {
                 
                 setFilter(sliceFilter)
