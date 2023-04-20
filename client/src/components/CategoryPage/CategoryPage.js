@@ -24,7 +24,6 @@ const CategoryPage = () => {
 
     useEffect(() => {
         const p = renderBrand(productList, filter);
-        console.log(p)
         setProductList(p)
     }, [filter])
 
@@ -33,6 +32,7 @@ const CategoryPage = () => {
         if (index !== -1) {
             const sliceFilter = [...filter.slice(0, index), ...filter.slice(index + 1)]
             if (sliceFilter.length === 0) {
+                setFilter([])
                 setProductList(fullProductList)
             } else {
                 
@@ -46,12 +46,7 @@ const CategoryPage = () => {
             const addFilter = [...filter, singleFilter]
             
             setFilter(addFilter)
-
             setProductList(fullProductList)
-
-            
-            
-           
         }
         
     }
@@ -68,8 +63,9 @@ const CategoryPage = () => {
         if (newProductList.length < 3) {
             ended = true;
         }
-        
-        setProductList(productList => [...productList, ...newProductList]);
+        const brand = renderBrand(newProductList, filter)
+    
+        setProductList(productList => [...productList, ...brand]);
         setFullProductList(fullProductList => [...fullProductList, ...newProductList])
         setNewItemLoading(false);
         setOffset(offset => offset + 3);
@@ -95,8 +91,6 @@ const CategoryPage = () => {
     
     function renderBrand(arr, brand) {
         if (brand.length === 0) {
-            console.log('return')
-            console.log(arr)
             console.log(brand)
             return arr
         } else {

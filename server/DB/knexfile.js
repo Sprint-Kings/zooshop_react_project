@@ -4,7 +4,7 @@ module.exports = {
         host: 'localhost',
         port: '5432',
         user: 'postgres',
-        password: '5545591pen',
+        password: '1234',
         database: 'zooshop'
     }
 }
