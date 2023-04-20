@@ -8,6 +8,7 @@ import useZooService from '../../services/ZooService';
 
 const CategoryPage = () => {
 
+    const [fullProductList, setFullProductList] = useState([]);
     const [productList, setProductList] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(1);
@@ -18,6 +19,7 @@ const CategoryPage = () => {
 
     useEffect(() => {
         onRequest(offset, true);
+        setFullProductList(productList);
     }, [])
 
     useEffect(() => {
@@ -34,15 +36,21 @@ const CategoryPage = () => {
                 setFilter([])
 
             } else {
+                
                 setFilter(sliceFilter)
+                setProductList(fullProductList)
                 
             }
         } else {
+            console.log(fullProductList)
             console.log('hier')
             const addFilter = [...filter, singleFilter]
             
-           
             setFilter(addFilter)
+
+            setProductList(fullProductList)
+
+            
             
            
         }
@@ -61,10 +69,9 @@ const CategoryPage = () => {
         if (newProductList.length < 3) {
             ended = true;
         }
-        const brand = renderBrand(newProductList, filter)
-        console.log(brand)
-        setProductList(productList => [...productList, ...brand]);
         
+        setProductList(productList => [...productList, ...newProductList]);
+        setFullProductList(fullProductList => [...fullProductList, ...newProductList])
         setNewItemLoading(false);
         setOffset(offset => offset + 3);
         setProductEnded(ended);
