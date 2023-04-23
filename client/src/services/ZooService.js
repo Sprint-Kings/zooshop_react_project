@@ -5,12 +5,17 @@ const useZooService = () => {
 
     const _apiBase = 'http://localhost:8083/api/';
     const _baseOffset = 1;
-    const _baseLimit = 3
+    const _baseLimit = 3;
     
     const getAllProducts = async (offset = _baseOffset, limit = _baseLimit) => {
         const res = await request(`${_apiBase}products/${limit}/${offset}`);
         return res.map(_transformProduct)
     }   
+
+    const getAllProductsByCategory = async (offset = _baseOffset, limit = _baseLimit, category) => {
+        const res = await request(`${_apiBase}products/${category}/${limit}/${offset}`);
+        return res.map(_transformProduct)
+    }  
 
     const getProduct = async (id) => {
         const res = await request(`${_apiBase}product/${id}`);
@@ -43,7 +48,6 @@ const useZooService = () => {
 
     const getAllNews = async (offset = _baseOffset, limit = _baseLimit) => {
         const res = await request(`${_apiBase}news/${limit}/${offset}`);
-        console.log(res)
         return res.map(_transformNews)
     }   
 
@@ -62,7 +66,21 @@ const useZooService = () => {
             thumbnail: news.thumbnail,
         }
     }
-    return {loading, error, getAllProducts, getProduct, getAllNews, getNews, clearError}
+
+    const getBrandByCategory = async (category) => {
+        const res = await request(`${_apiBase}brands/${category}`);
+        return res
+    }  
+
+    const getAllCategories = async () => {
+        const res = await request(`${_apiBase}categories`);
+        return res
+    }  
+
+    return {loading, error, getAllProducts, getProduct, 
+        getAllNews, getNews, getBrandByCategory, 
+        getAllProductsByCategory, getAllCategories, 
+        clearError}
 }
 
 export default useZooService;

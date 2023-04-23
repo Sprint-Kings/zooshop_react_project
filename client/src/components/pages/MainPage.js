@@ -12,7 +12,7 @@ const MainPage = () => {
 
     return (
         <div>   
-            <HeaderImage/>
+            <HeaderImage image={'/main_image.jpg'} btn={true} title={'Добро пожаловать'}/>
             <BigStory/>
             <div style={{width: '80%', margin: '0 auto', marginTop: '100px'}}>
                 <h1>Читайте</h1>

@@ -2,11 +2,13 @@ import {useState, useEffect} from 'react';
 
 import './categoryPage.css'
 
+import HeaderImage from "../header-image/HeaderImage";
+import BrandFilter from '../brandFilter/BrandFilter';
 import ColorFilter from "../colorFilter/ColorFilter";
 import ProductCart from '../productCart/ProductCart';
 import useZooService from '../../services/ZooService';
 
-const CategoryPage = () => {
+const CategoryPage = ({category, title, subtitle=false}) => {
 
     const [fullProductList, setFullProductList] = useState([]);
     const [productList, setProductList] = useState([]);
@@ -15,7 +17,7 @@ const CategoryPage = () => {
     const [productEnded, setProductEnded] = useState(false);
     const [filter, setFilter] = useState([]);
 
-    const {getAllProducts} = useZooService();
+    const {getAllProductsByCategory} = useZooService();
 
     useEffect(() => {
         onRequest(offset, true);
@@ -54,7 +56,7 @@ const CategoryPage = () => {
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
 
-        getAllProducts(offset, 3)
+        getAllProductsByCategory(offset, 3, category)
             .then(onProductListLoaded)
     }
 
@@ -108,26 +110,40 @@ const CategoryPage = () => {
         }
     }
 
+    const clearAll = () => {
+        setFilter([])
+        setProductList(fullProductList)
+    }
+
     const items = renderItems(productList);
     return (
+        <>
+        <HeaderImage image={'/dryFood.png'} title={title} subtitle={subtitle}/>
         <div className='category-page-container'>
             <div className='category-page-column-1'>
-                <ColorFilter updateFilter={updateFilter}/>
+                <div className='category-page-column-1-color-filter'>
+                    <ColorFilter updateFilter={updateFilter}/>
+                </div>
+                <div className='category-page-column-1-brand-filter'>
+                    <BrandFilter clearAll={clearAll} updateFilter={updateFilter} category={category}/>
+
+                </div>
             </div>
             <div className='category-page-column-2'>
-                {items}
+                <div className='category-page-column-2-product-list'>
+                    {items}
+                </div>
+                <div className='category-page-column-2-load-button'>
+                    <button 
+                        disabled={newItemLoading}
+                        style={{'display': productEnded ? 'none' : 'block'}}
+                        onClick={() => onRequest(offset)}>
+                        <div>load more</div>
+                    </button>
+                </div>
             </div>
-            <button 
-                disabled={newItemLoading}
-                style={{'display': productEnded ? 'none' : 'block'}}
-                onClick={() => onRequest(offset)}>
-                <div>load more</div>
-            </button>
-            <button 
-                onClick={() => setFilter(['Grandin','Ownat'])}>
-                <div>change</div>
-            </button>
         </div>
+        </>
     )
 }
 

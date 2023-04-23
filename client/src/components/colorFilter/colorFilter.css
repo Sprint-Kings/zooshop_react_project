@@ -12,11 +12,25 @@
     flex-wrap: wrap;
 }
 
-.color-filter-color-container > span {
+.color-filter-color-container > div {
     margin: 5px;
 }
+
+.color-filter-checker {
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+
+
+}
+
+.color-filter-circle:target > div{
+    background: red;
+    z-index: 1;
+}
+
 .color-filter-circle {
-    margin: 3px;
     width: 40px;
     height: 40px;
     background: #83A7C9;

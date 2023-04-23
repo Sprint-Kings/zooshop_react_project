@@ -1,14 +1,124 @@
-.brand-filter-container {
-    padding: 15px;
-    width: 80%;
+.brand-filter-title {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 88%;
     background-color: #2A556C;
     color: white;
-    border-radius: 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    transition: all .3s ease-in-out;
+}
+.brand-filter-title > * {
+    padding: 15px;
+}
+.brand-filter-body {
+    width: 88%;
+    max-height: 1000px;
+    transition: max-height .3s ease-in-out;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: #2A556C;
+    color: white;
+}
+.brand-filter-container {
+    padding: 0 15px 0 15px;
+    width: 91%;
 }
 
-.brand-filter-color-container {
+.brand-filter-brand-container {
     display: flex;
-    justify-content:baseline;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.brand-filter-brand-element, .brand-filter-brand-element--selected {
+    display: flex;
+    justify-content:space-between;
+    flex-wrap: nowrap;
+}
+
+.brand-filter-custom-checkbox {
+    margin-top: 19px;
+    width: 20px;
+    height: 20px;
+    border-color: white;
+    border-radius: 20%;
+    border-style: solid;
+    border-width: 2px;
+    transition: all .2s ease-in-out;
+}
+
+.brand-filter-brand-element--selected .brand-filter-custom-checkbox {
+    background-color: white;
+}
+ 
+.brand-filter-brand-element--selected .brand-filter-custom-checkbox::after{
+    content: '';
+    border-bottom: 2px solid #2A556C;
+    border-right: 2px solid #2A556C;
+    display: inline-block;
+    height: 60%;
+    position: relative;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 20%;
+}
+
+.brand-filter-hide-icon-container {
+    width: 10%;
+    text-align: center;
+}
+.brand-filter-hide-icon {
+    display: inline-block;
+    border-bottom: 2px solid white;
+    border-right: 2px solid white;
+    width: 38%;
+    height: 24%;
+    position: relative;
+    top: 55%;
+    left: 30%;
+    transform: translate(-50%, -50%) rotate(-135deg);
+    transition: all .4s ease-in-out;
+}
+
+.brand-filter-inner {
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+    align-items: center;
+}
+.brand-filter-counter {
+    margin-top: 5%;
+    width: 18%;
+    height: 29%;
+    text-align: center;
+    vertical-align: middle;
+    padding-bottom: 3%;
+    background: #D9D9D9;
+    border-radius: 50%;
+    color: black;
+    font-weight: 500;
+}
+
+.brand-filter-clear-button {
+    margin: 5%;
+    border: none;
+    background: none;
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration-style : solid;
+    text-decoration-color: black;
+    transition: color .2s linear;
+}
+
+.brand-filter-clear-button:hover {
+    color: #F8BC48;
+}
+
+.brand-filter-clear-button:active {
+    transition: color 100ms linear;
+    color: black;
 }
 

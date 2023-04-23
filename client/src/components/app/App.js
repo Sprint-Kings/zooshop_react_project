@@ -1,12 +1,60 @@
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import { useEffect, useState } from "react";
 import './App.css';
 
-import Header from '../header/Header';
-import {MainPage, ProductsPage, Page404, NewsPage, ProductPage, SingleNewsPage, DryFood} from "../pages";
+import Header from '../header/Header'
+import {MainPage, ProductsPage, Page404, NewsPage, ProductPage, SingleNewsPage, CategoriesPage} from "../pages";
+import useZooService from "../../services/ZooService";
+import CategoryPage from "../CategoryPage/CategoryPage";
+
 
 function App() {
+  const [categoriesList, setCategoriesList] = useState([]);
+
+  const titleList = [
+    {title: 'Сухой корм', subtitle: ''},
+    {title: 'Холистик', subtitle: ''},
+    {title: 'Консервы', subtitle: ''},
+    {title: 'Лечебный и ветеринарный корм', subtitle: ''},
+    {title: 'Лакомства для чистки зубов', subtitle: ''},
+    {title: 'Колбаски', subtitle: ''},
+    {title: 'Витамины и минералы', subtitle: ''},
+    {title: 'Сухие лакомства', subtitle: ''},
+    {title: 'Лежаки', subtitle: ''},
+    {title: 'Матрасы', subtitle: ''},
+    {title: 'Подушки', subtitle: ''},
+    {title: 'Пледы', subtitle: ''},
+    {title: 'Миски', subtitle: ''},
+    {title: 'Автопоилки', subtitle: ''},
+    {title: 'Коврики под миски', subtitle: ''},
+    {title: 'Фрисби', subtitle: ''},
+    {title: 'Грейферы', subtitle: ''},
+    {title: 'Кольца', subtitle: ''},
+    {title: 'Мячики', subtitle: ''},
+    {title: 'Косточки', subtitle: ''},
+  ];
+
+  useEffect(() => {
+    onRequest()
+  }, [])
+
+  const {getAllCategories} = useZooService();
+
+  const onRequest = () => {
+    getAllCategories()
+      .then(onCategoriesListLoaded)
+  }
+
+  const onCategoriesListLoaded = (newCategoriesList) => {
+    setCategoriesList(newCategoriesList)
+  }
+
+  const content = categoriesList.map((item, i)=> {
+    const path = `/categories/${item.category}`
+    return <Route path={path} element={<CategoryPage category={item.category} title={titleList[i].title}/>}/>
+  })
+
   return (
     <Router>
       <div className="app">
@@ -18,7 +66,8 @@ function App() {
                   <Route path="/news" element={<NewsPage/>}/>
                   <Route path="/news/:newsId" element={<SingleNewsPage/>}/>
                   <Route path="/product/:productId" element={<ProductPage/>}/>
-                  <Route path="/dryfood" element={<DryFood/>}/>
+                  <Route path="/categories" element={<CategoriesPage/>}/>
+                  {content}
                   <Route path="*" element={<Page404/>}/>
               </Routes>
           </main>

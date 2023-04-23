@@ -54,7 +54,7 @@ const View = ({product}) => {
                 {container}
             </div>
             <div className='product-cart-column-2'>
-            <p>{name}</p>
+            <p>{name.length > 60 ? name.slice(0, 60) + '...' : name}</p>
             </div>
             <div className='product-cart-column-3'>
             <h4>{price[0]} &#8381;</h4>

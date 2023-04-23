@@ -3,7 +3,7 @@ import CategoryPage from "../CategoryPage/CategoryPage";
 const DryFood = () => {
     return (
         <div>
-        <CategoryPage/>
+        <CategoryPage category={'Сухой корм'}/>
         </div>
     )
 }

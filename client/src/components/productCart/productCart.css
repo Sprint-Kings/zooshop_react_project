@@ -1,5 +1,7 @@
 .product-cart-container {
-    margin: 10px;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    margin-left: 15px;
     display: flex;
     flex-direction: column;
     height: 400px;
@@ -28,6 +30,7 @@
 .product-cart-column-1 {
     display: flex;
     flex: 0 1 50%;
+    width: 100%;
     justify-content: center;
 }
 
@@ -38,7 +41,7 @@
     width: 100%;
     height: 80%;
     
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .product-cart-column-2 {
