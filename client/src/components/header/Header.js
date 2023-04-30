@@ -1,50 +1,97 @@
 import logo from '../../img/logo.svg';
-import search from '../../img/search.svg';
+import signIn from '../../img/signIn.svg';
+import signUp from '../../img/signUp.svg';
+import signOut from '../../img/signOut.svg';
+import cart from '../../img/cart.svg'
 import user from '../../img/user.svg';
-import favourite from '../../img/favourite.svg';
 
 import './Header.css';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+import AuthService from "../../services/AuthService";
+import EventBus from "../../services/EventBus";
 
 function Header() {
     const [style, setStyle] = useState(false);
+    const [currentUser, setCurrentUser] = useState(false);
+
+    useEffect(() => {
+        const user = AuthService.getCurrentUser();
+
+        if (user) {
+          setCurrentUser(user);
+        }
+
+        EventBus.on("logout", () => {
+            logOut();
+          });
+      
+          return () => {
+            EventBus.remove("logout");
+          };
+    }, []);
+
+    const logOut = () => {
+        AuthService.logout();
+        setCurrentUser(false);
+    };
+
     return (
         <div>
             <div className='container-header'>
+
                 <div className='logo'>
                     <div className='container-logo-image'>
-                    <Link to={'/'} style={{ textDecoration: 'none'}}>
+                    <Link to={'/'} style={{ textDecoration: 'none'}} onClick={() => setStyle(style => style ? !style : style)}>
                         <img className='logo-image' src={logo} alt='logo'></img>
                     </Link>
                     </div>
 
                     <h3 style={{padding: '2%', fontWeight: 'normal'}}>
-                    <Link to={'/'} style={{ textDecoration: 'none'}}>
+                    <Link to={'/'} style={{ textDecoration: 'none'}} onClick={() => setStyle(style => style ? !style : style)}>
                         <span  style={{color: '#f8bc48'}}>Добрые </span>
                         <span  style={{color: '#4dbd3a'}}>руки</span>
                     </Link>
                     </h3>
-
                 </div>
 
                 <div className='navigation'>
-                        <button><h3 onClick={() => setStyle(style => !style)}>Магазин</h3></button>
-                        <h3>Новости</h3>
-                        <h3>О нас</h3>
+                        <button onClick={() => setStyle(style => !style)}><h3>Магазин</h3></button>
+                        <button><h3>Новости</h3></button>
+                        <button><h3>О нас</h3></button>
                 </div>
+
                 <div className='icon-menu'>
-                    <div className='container-icon-image'>
-                        <img className='icon-image' src={search} alt='search'></img>
-                    </div>
-                    <div className='container-icon-image'>
-                        <img className='icon-image' src={user} alt='user'></img>
-                    </div>
-                    <div className='container-icon-image'>
-                        <img className='icon-image' src={favourite} alt='favor'></img>
-                    </div>
+                    {currentUser !== false ? (
+                        <>
+                            <Link to={'/profile'} style={{ textDecoration: 'none'}} className='container-icon-image'>  
+                                    <img className='icon-image' src={cart} alt='user'></img>
+                                    <p>Корзина</p>
+                            </Link>
+                            <Link to={'/profile'} style={{ textDecoration: 'none'}} className='container-icon-image'>
+                                <img className='icon-image' src={user} alt='user'></img>
+                                <p>{currentUser.accessToken.slice(0,5)}</p>
+                            </Link>
+                            <Link to={'/'} style={{ textDecoration: 'none'}} onClick={logOut} className='container-icon-image'>
+                                <img className='icon-image' src={signOut} alt='favor'></img>
+                                <p>Выход</p>
+                            </Link> 
+                        </>) : (
+                        <>
+                            <Link to={'/login'} style={{ textDecoration: 'none'}} className='container-icon-image'>
+                                <img className='icon-image' src={signIn} alt='user'></img>
+                                <p>Вход</p>
+                            </Link>
+                            <Link to={'/register'} style={{ textDecoration: 'none'}} className='container-icon-image'>
+                                <img className='icon-image' src={signUp} alt='favor'></img>
+                                <p>Регистрация</p>
+                            </Link> 
+                        </>
+                    )}
                 </div>
+
             </div>
             <div className='header-subnavigation-menu' style={style ? {overflow: 'visible', maxHeight: 1000} : {overflow: 'hidden', transitionDelay: '.2s'}}>
                 <div className='header-subnavigation-menu-container'>

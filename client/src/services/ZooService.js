@@ -19,7 +19,7 @@ const useZooService = () => {
 
     const getProduct = async (id) => {
         const res = await request(`${_apiBase}product/${id}`);
-        return _transformProduct(res[0])
+        return _transformProduct(res)
     }
 
     const _transformProduct = (product) => {
@@ -53,7 +53,9 @@ const useZooService = () => {
 
     const getNews = async (id) => {
         const res = await request(`${_apiBase}news/${id}`);
-        return _transformNews(res[0])
+        console.log(res)
+        return _transformNews(res)
+        
     }
 
     const _transformNews = (news) => {
@@ -69,6 +71,7 @@ const useZooService = () => {
 
     const getBrandByCategory = async (category) => {
         const res = await request(`${_apiBase}brands/${category}`);
+        console.log(res)
         return res
     }  
 

@@ -50,7 +50,7 @@ const BrandFilter = ({clearAll, updateFilter, category}) => {
                     updateFilter(item.brand)
                     updateCheckBoxs(index)
                 }}>
-                <h4>{item.brand}</h4>
+                <h4>{item}</h4>
                 <span className='brand-filter-custom-checkbox'></span>
             </div>
         )

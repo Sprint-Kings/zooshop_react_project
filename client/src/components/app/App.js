@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import './App.css';
 
 import Header from '../header/Header'
-import {MainPage, ProductsPage, Page404, NewsPage, ProductPage, SingleNewsPage, CategoriesPage} from "../pages";
+import {MainPage, ProductsPage, Page404, NewsPage, ProductPage, SingleNewsPage, CategoriesPage, BoardUser, LoginPage, RegistrationPage, ProfilePage} from "../pages";
 import useZooService from "../../services/ZooService";
 import CategoryPage from "../CategoryPage/CategoryPage";
 
@@ -51,8 +51,8 @@ function App() {
   }
 
   const content = categoriesList.map((item, i)=> {
-    const path = `/categories/${item.category}`
-    return <Route path={path} element={<CategoryPage category={item.category} title={titleList[i].title}/>}/>
+    const path = `/categories/${item}`
+    return <Route path={path} element={<CategoryPage category={item} title={titleList[i].title}/>}/>
   })
 
   return (
@@ -62,6 +62,10 @@ function App() {
           <main>
               <Routes>
                   <Route path="/" element={<MainPage/>}/>
+                  <Route path="/login" element={<LoginPage/>} />
+                  <Route path="/register" element={<RegistrationPage/>} />
+                  <Route path="/profile" element={<ProfilePage/>} />
+                  <Route path="/user" element={<BoardUser/>} />
                   <Route path="/products" element={<ProductsPage/>}/>
                   <Route path="/news" element={<NewsPage/>}/>
                   <Route path="/news/:newsId" element={<SingleNewsPage/>}/>

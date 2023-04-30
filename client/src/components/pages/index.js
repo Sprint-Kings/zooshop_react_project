@@ -9,7 +9,11 @@ import Holistic from "./Holistic";
 import Preserves from "./Preserves";
 import Frisbee from "./Frisbee";
 import CategoriesPage from "./CategoriesPage";
+import BoardUser from "./BoardUser";
+import LoginPage from "./LoginPage";
+import RegistrationPage from "./RegistrationPage";
+import ProfilePage from "./ProfilePage";
 
 export {MainPage, ProductsPage, Page404, NewsPage,
      ProductPage, SingleNewsPage, DryFood,
-    Holistic, Preserves, Frisbee, CategoriesPage};
+    Holistic, Preserves, Frisbee, CategoriesPage, BoardUser, LoginPage, RegistrationPage, ProfilePage};
