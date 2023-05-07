@@ -52,7 +52,7 @@ function App() {
 
   const content = categoriesList.map((item, i)=> {
     const path = `/categories/${item}`
-    return <Route path={path} element={<CategoryPage category={item} title={titleList[i].title}/>}/>
+    return <Route key={i} path={path} element={<CategoryPage category={item} title={titleList[i].title}/>}/>
   })
 
   return (

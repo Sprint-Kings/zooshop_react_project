@@ -1,167 +1,150 @@
-import React, { useState, useRef } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
+import { useState} from "react";
+import { useFormik } from "formik";
+import * as Yup from 'yup';
+
+import './loginPage.css';
+import loginImage from '../../img/SignUp.jpg';
 
 import AuthService from "../../services/AuthService";
 
-const required = (value) => {
-  if (!value) {
-    return (
-      <div>
-        This field is required!
-      </div>
-    );
-  }
-};
-
-const validEmail = (value) => {
-  if (!isEmail(value)) {
-    return (
-      <div>
-        This is not a valid email.
-      </div>
-    );
-  }
-};
-
-const vusername = (value) => {
-  if (value.length < 3 || value.length > 20) {
-    return (
-      <div>
-        The username must be between 3 and 20 characters.
-      </div>
-    );
-  }
-};
-
-const vpassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div>
-        The password must be between 6 and 40 characters.
-      </div>
-    );
-  }
-};
+import Spinner from '../spinner/Spinner';
 
 const RegistrationPage = () => {
-  const form = useRef();
-  const checkBtn = useRef();
+    const [successful, setSuccessful] = useState(false);
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [successful, setSuccessful] = useState(false);
-  const [message, setMessage] = useState("");
+    const validationSchema = Yup.object().shape({
+        username: Yup.string()
+          .required("Придумайте имя пользователя")
+          .min(4, "Имя пользователя должно иметь минимум 4 символа")
+          .max(20, "Имя пользователя не должно быть больше 20 символов"),
+        email: Yup.string().required("Введите электронную почту").email("Неправильный адрес электронной почты"),
+        password: Yup.string()
+          .required("Придумайте пароль")
+          .min(4, "Пароль должен иметь минимум 4 символа")
+          .max(40, "Пароль не должен быть больше 40 символов")
+    });
 
-  const onChangeUsername = (e) => {
-    const username = e.target.value;
-    setUsername(username);
-  };
+    const formik = useFormik({
+      initialValues: {
+        username: "",
+        email: "",
+        password: "",
+    },
+    validationSchema,
+    onSubmit: (data) => {
+        setLoading(true)
+        AuthService.register(data.username, data.email, data.password).then(
+            (response) => {
+                setMessage(response.data.message);
+                setSuccessful(true);
+                setLoading(false)
+            },
+            (error) => {
+              const resMessage =
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                error.message ||
+                error.toString();
+    
+                setMessage(resMessage);
+                setSuccessful(false);
+                setLoading(false)
+            }
+          );           
+    }});
 
-  const onChangeEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
-  };
-
-  const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-
-    setMessage("");
-    setSuccessful(false);
-
-    form.current.validateAll();
-
-    if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(username, email, password).then(
-        (response) => {
-          setMessage(response.data.message);
-          setSuccessful(true);
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
-          setMessage(resMessage);
-          setSuccessful(false);
-        }
-      );
-    }
-  };
-
-  return (
-    <div>
-      <div>
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-        />
-
-        <Form onSubmit={handleRegister} ref={form}>
-          {!successful && (
-            <div>
-              <div>
-                <label htmlFor="username">Username</label>
-                <Input
-                  type="text"
-                  name="username"
-                  value={username}
-                  onChange={onChangeUsername}
-                  validations={[required, vusername]}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email">Email</label>
-                <Input
-                  type="text"
-                  name="email"
-                  value={email}
-                  onChange={onChangeEmail}
-                  validations={[required, validEmail]}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="password">Password</label>
-                <Input
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={onChangePassword}
-                  validations={[required, vpassword]}
-                />
-              </div>
-
-              <div>
-                <button>Sign Up</button>
-              </div>
+    const spinner = loading ? <div className="login-page-container"><Spinner/></div> : null;
+    const congratulation = successful && !loading ? 
+        <div className="login-page-container">
+          <div className="login-page-column-1">
+            <div className="registration-page-form-container">
+              <h2>{message}</h2>
             </div>
-          )}
-
-          {message && (
-            <div>
-              <div>
-                {message}
-              </div>
+          </div>
+          <div className="registration-page-column-2">
+            <img src={loginImage} alt="loginimage"></img>
+          </div>
+        </div> : null;
+    const content = !successful && !loading ? 
+        <div className="login-page-container">
+            <div className="login-page-column-1">
+                <div className="registration-page-form-container">
+                    <h1>Регистрация</h1>
+                    <form  className="login-page-form" onSubmit={formik.handleSubmit}>
+                        <div className="login-page-form-group">
+                            <label htmlFor="username">Имя пользователя</label>
+                            <input
+                                type="text"
+                                name="username"
+                                className={
+                                  (formik.errors.username && formik.touched.username
+                                    ? ' login-page-input-invalid'
+                                    : "login-page-input")
+                                }
+                                value={formik.values.username}
+                                onChange={formik.handleChange}
+                            />
+                            <p className="login-page-invalid-message">{formik.errors.username && formik.touched.username
+                                ? formik.errors.username
+                            : null}</p>
+                        </div>
+                        <div className="login-page-form-group">
+                            <label htmlFor="email">E-mail</label>
+                            <input
+                                type="text"
+                                name="email"
+                                className={
+                                  (formik.errors.email && formik.touched.email
+                                    ? ' login-page-input-invalid'
+                                    : "login-page-input")
+                                }
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                            />
+                            <p className="login-page-invalid-message">{formik.errors.email && formik.touched.email
+                                ? formik.errors.email
+                            : null}</p>
+                        </div>
+                        <div className="login-page-form-group">
+                            <label htmlFor="password">Пароль</label>
+                            <input
+                                type="password"
+                                name="password"
+                                className={
+                                  (formik.errors.password && formik.touched.password
+                                    ? ' login-page-input-invalid'
+                                    : "login-page-input")
+                                }
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                            />
+                            <p className="login-page-invalid-message">{formik.errors.password && formik.touched.password
+                                ? formik.errors.password
+                            : null}</p>
+                        </div>
+                        <button className='login-page-button' type="submit">
+                            Войти
+                        </button>
+                        { message ? <p className="login-page-invalid-message">{message}</p> : null}
+                    </form>
+                </div>
+                            
             </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
-      </div>
-    </div>
-  );
+            <div className="registration-page-column-2">
+                <img src={loginImage} alt="loginimage"></img>
+            </div>
+        </div> : null;
+    
+    return (
+        <>
+            {spinner}
+            {congratulation}
+            {content}
+        </>
+    );
 };
 
 export default RegistrationPage;

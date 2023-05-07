@@ -1,0 +1,218 @@
+.login-page-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    color:#2a556c;
+}
+
+.login-page-container h1 {
+    font-size: calc( (100vw - 1rem)/40);
+}
+.login-page-column-1 {
+    height: inherit;
+    display: flex;
+    flex: 0 0 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-page-form-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    align-items: center;
+    justify-content: center;
+    animation: showForm .7s ease-in-out;
+}
+
+.registration-page-form-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    align-items: center;
+    justify-content: center;
+    animation: showFormReg .7s ease-in-out;
+}
+
+.login-page-form {  
+    height: inherit;
+    padding: 5%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:space-between;
+    width: 90%;
+    border-radius: 6px;
+    border-color: rgba(153, 153, 153, 0.5);
+    border-width: 0.5px;
+    border-style: solid;
+    flex-wrap: nowrap;
+}
+
+.login-page-form label {
+    font-size: calc( (100vw - 1rem)/80);
+}
+
+.login-page-form-group {
+    padding: 1% 5% 1% 5%;
+    text-align: left;
+    width: 90%;
+}
+
+.login-page-input {
+    margin-top: 2%;
+    outline:none;
+    height: 2vmax;
+    width: 100%;
+    border: none;
+    border-bottom: 2px;
+    border-bottom-style: solid;
+    border-color: #8d8d8d;
+    font-size: calc((100vw - 1rem)/70);
+    font: weight 100px;
+    font-family: 'Scada';
+    transition: all .2s ease-in-out; 
+}
+
+.login-page-input-invalid{
+    margin-top: 2%;
+    outline:none;
+    height: 2vmax;
+    width: 100%;
+    border: none;
+    border-bottom: 2px;
+    border-bottom-style: solid;
+    font-size: calc( (100vw - 1rem)/70);
+    font: weight 100px;
+    font-family: 'Scada';
+    transition: all .2s linear; 
+    border-color: #dc3545;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+
+}
+
+.login-page-input-invalid:focus {
+    border-color: #dc3545;
+    animation: showBorder .2s linear;
+}
+
+.login-page-input:focus {
+    border-color: #000000;
+    animation: showBorder .2s linear;
+}
+
+.login-page-column-2 {
+    display: flex;
+    flex: 0 0 50%;
+    animation: showImage .7s ease-in-out;
+    height: inherit;
+}
+
+.registration-page-column-2 {
+    display: flex;
+    flex: 0 0 50%;
+    animation: showImageReg .7s ease-in-out;
+    height: inherit;
+}
+
+.registration-page-column-2 > img {
+    height: inherit;
+    width: 100%;
+    object-fit: cover;
+}
+
+.login-page-column-2 > img {
+    height: inherit;
+    width: 100%;
+    object-fit: cover;
+}
+
+.login-page-button {
+    width: 40%;
+    margin-top: 2%;
+    padding: 2% 2% 2% 2%;
+    background-color: #F8BC48;
+    color: #2F3C43;
+    border: none;
+    font-size: calc( (100vw - 1rem)/70);
+    font-weight: bold;
+    font-family: 'Scada',  sans-serif;
+    border-radius: 4px;
+    transition: all .2s ease-in-out;
+}
+
+.login-page-button:hover {
+    background-color: #2a556c;
+    color: white;
+}
+
+.login-page-button:active {
+    transition: all .1s ease-in-out;
+    background-color: #F8BC48;
+    color: #2F3C43;
+    
+}
+
+.login-page-invalid-message {
+    color: #dc3545;
+}
+
+
+@keyframes showForm {
+    0% {
+        transform: translateY(-150%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes showImage {
+    0% {
+        transform: translateY(150%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes showFormReg {
+    0% {
+        transform: translateX(-150%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes showImageReg {
+    0% {
+        transform: translateX(150%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes showBorder {
+    0% {
+        border-bottom: 2px;
+    }
+    25% {
+        border-bottom: 1px;
+    }
+    50% {
+        border-bottom: 0.1px;
+    }
+    75% {
+        border-bottom: 1px;
+    }
+    100% {
+        border-bottom: 2px;
+    }
+}

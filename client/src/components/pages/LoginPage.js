@@ -1,126 +1,93 @@
-import { useState, useRef } from "react";
+import { useState} from "react";
 import { useNavigate } from 'react-router-dom';
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+import { useFormik } from "formik";
+
+import './loginPage.css';
+import loginImage from '../../img/logIn.jpg';
 
 import AuthService from "../../services/AuthService";
 
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
-    );
-  }
-};
+import Spinner from '../spinner/Spinner';
 
 const LoginPage = () => {
-  let navigate = useNavigate();
+    let navigate = useNavigate();
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  const form = useRef();
-  const checkBtn = useRef();
+    const formik = useFormik({
+        initialValues: {
+        username: "",
+        password: "",
+    },
+    onSubmit: (data) => {
+        setLoading(true)
+        AuthService.login(data.username, data.password).then(
+            () => {
+                setLoading(false)
+                navigate("/profile");
+                window.location.reload();
+            },
+            (error) => {
+                const resMessage =
+                (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+                error.message ||
+                error.toString();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+                setMessage(resMessage);
+                setLoading(false)
+            }
+        );
+                    
+    }});
 
-  const onChangeUsername = (e) => {
-    const username = e.target.value;
-    setUsername(username);
-  };
-
-  const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    setMessage("");
-    setLoading(true);
-
-    form.current.validateAll();
-
-    if (checkBtn.current.context._errors.length === 0) {
-      AuthService.login(username, password).then(
-        () => {
-          navigate("/profile");
-          window.location.reload();
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
-          setLoading(false);
-          setMessage(resMessage);
-        }
-      );
-    } else {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div>
-      <div>
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-        />
-
-        <Form onSubmit={handleLogin} ref={form}>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="username"
-              value={username}
-              onChange={onChangeUsername}
-              validations={[required]}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <Input
-              type="password"
-              name="password"
-              value={password}
-              onChange={onChangePassword}
-              validations={[required]}
-            />
-          </div>
-
-          <div>
-            <button disabled={loading}>
-              {loading && (
-                <span></span>
-              )}
-              <span>Login</span>
-            </button>
-          </div>
-
-          {message && (
-            <div>
-              <div>
-                {message}
-              </div>
+    const spinner = loading ? <div className="login-page-container"><Spinner/></div> : null;
+    const content = !loading ?
+        <div className="login-page-container">
+            <div className="login-page-column-1">
+                <div className="login-page-form-container">
+                    <h1>Вход</h1>
+                    <form  className="login-page-form" onSubmit={formik.handleSubmit}>
+                        <div className="login-page-form-group">
+                            <label htmlFor="username">Имя пользователя</label>
+                            <input
+                                type="text"
+                                name="username"
+                                className="login-page-input"
+                                value={formik.values.username}
+                                onChange={formik.handleChange}
+                            />
+                            <p></p>
+                        </div>
+                        <div className="login-page-form-group">
+                            <label htmlFor="password">Пароль</label>
+                            <input
+                                type="password"
+                                name="password"
+                                className="login-page-input"
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                            />
+                            <p></p>
+                        </div>
+                        <button className='login-page-button' type="submit">
+                            Войти
+                        </button>
+                        { message ? <p className="login-page-invalid-message">{message}</p> : null}
+                    </form>
+                </div>
             </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
-      </div>
-    </div>
-  );
+            <div className="login-page-column-2">
+                <img src={loginImage} alt="loginimage"></img>
+            </div>
+        </div> : null;
+    return (
+        <>
+            {spinner}
+            {content}
+        </>
+    );
 };
 
 export default LoginPage;
