@@ -19,6 +19,11 @@ const getUserBoard = async () => {
   return res;
 }  
 
+const getAdminBoard = async () => {
+  const res = await request(`${API_URL}admin`, authHeader());
+  return res;
+}  
+
 
 
 const refreshToken = () => {
@@ -40,9 +45,6 @@ const getModeratorBoard = () => {
   return axios.get(API_URL + "mod", { headers: authHeader() });
 };
 
-const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
-};
 
 return {
   getPublicContent,

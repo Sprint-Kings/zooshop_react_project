@@ -4,6 +4,7 @@ import signUp from '../../img/signUp.svg';
 import signOut from '../../img/signOut.svg';
 import cart from '../../img/cart.svg'
 import user from '../../img/user.svg';
+import admin from '../../img/admin.svg';
 
 import './Header.css';
 
@@ -16,12 +17,15 @@ import EventBus from "../../services/EventBus";
 function Header() {
     const [style, setStyle] = useState(false);
     const [currentUser, setCurrentUser] = useState(false);
+    const [showAdminBoard, setShowAdminBoard] = useState(false);
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
 
         if (user) {
           setCurrentUser(user);
+          const roles = localStorage.getItem("roles")
+          setShowAdminBoard(roles.includes("ROLE_ADMIN"));
         }
 
         EventBus.on("logout", () => {
@@ -35,13 +39,13 @@ function Header() {
 
     const logOut = () => {
         AuthService.logout();
+        setShowAdminBoard(false);
         setCurrentUser(false);
     };
 
     return (
         <div>
             <div className='container-header'>
-
                 <div className='logo'>
                     <div className='container-logo-image'>
                     <Link to={'/'} style={{ textDecoration: 'none'}} onClick={() => setStyle(style => style ? !style : style)}>
@@ -66,13 +70,18 @@ function Header() {
                 <div className='icon-menu'>
                     {currentUser !== false ? (
                         <>
+                            {showAdminBoard ? 
+                            <Link to={'/admin'} style={{ textDecoration: 'none'}} className='container-icon-image'>  
+                                <img className='icon-image' src={admin} alt='user'></img>
+                                <p>Админ</p>
+                            </Link> : null}
                             <Link to={'/profile'} style={{ textDecoration: 'none'}} className='container-icon-image'>  
                                     <img className='icon-image' src={cart} alt='user'></img>
                                     <p>Корзина</p>
                             </Link>
                             <Link to={'/profile'} style={{ textDecoration: 'none'}} className='container-icon-image'>
                                 <img className='icon-image' src={user} alt='user'></img>
-                                <p>{currentUser.accessToken.slice(0,5)}</p>
+                                <p>{currentUser}</p>
                             </Link>
                             <Link to={'/'} style={{ textDecoration: 'none'}} onClick={logOut} className='container-icon-image'>
                                 <img className='icon-image' src={signOut} alt='favor'></img>

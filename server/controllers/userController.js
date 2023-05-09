@@ -14,10 +14,12 @@ exports.allAccess = (req, res) => {
     })
       .then(async (user) => {
         if (!user) {
-          return res.status(404).send({ message: "User Not found." });
+          return res.status(404).send({ message: "Пользователь не найден" });
         }
           res.status(200).send({
             id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
             username: user.username,
             email: user.email
           });
@@ -28,7 +30,26 @@ exports.allAccess = (req, res) => {
   };
   
   exports.adminBoard = (req, res) => {
-    res.status(200).send("Admin Content.");
+    User.findOne({
+      where: {
+        id: req.userId
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          return res.status(404).send({ message: "Пользователь не найден" });
+        }
+          res.status(200).send({
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            username: user.username,
+            email: user.email
+          });
+        })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
   };
   
   exports.moderatorBoard = (req, res) => {

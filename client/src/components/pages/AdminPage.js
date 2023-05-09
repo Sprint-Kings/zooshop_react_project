@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useUserService from '../../services/UserService';
 
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
-const ProfilePage = () => {
+const AdminPage = () => {
   const [currentUser, setCurrentUser] = useState([])
 
   useEffect(() => {
@@ -13,13 +13,13 @@ const ProfilePage = () => {
 
   
   
-  const {loading, error, getUserBoard, clearError, refreshToken} = useUserService();
+  const {loading, error, getAdminBoard, clearError, refreshToken} = useUserService();
 
   useEffect(() => {
-    if (error === 'Could not fetch http://localhost:8083/api/user, status: 401') {
+    if (error === 'Could not fetch http://localhost:8083/api/admin, status: 401') {
       refreshToken().then(
         () => {
-          getUserBoard()
+          getAdminBoard()
             .then(updateNews);
         },
         (error) => {
@@ -37,20 +37,19 @@ const ProfilePage = () => {
 
   const updateNews = () => {
     clearError();
-    getUserBoard()
+    getAdminBoard()
         .then(onNewsLoaded);
   }
 
   const onNewsLoaded = (news) => {
       setCurrentUser(news);
-      
   }
 
   const errorMessage = error ? <ErrorMessage/> : null;
   const spinner = loading ? <Spinner/> : null;
   const content = !(loading || error || !currentUser) ? <View news={currentUser}/> : null;
   return (
-    <div>
+    <div style={{marginTop: '20%'}}>
       {errorMessage}
       {spinner}
       {content}
@@ -59,25 +58,25 @@ const ProfilePage = () => {
 };
 
 const View = ({news}) => {
-  const {id, username, email} = news;
-  return (
-      <>
-          <header>
-        <h3>
-          <strong>{username}</strong> Profile
-        </h3>
-      </header>
+    const {id, username, email} = news;
+    return (
+        <>
+            <header>
+          <h3>
+            <strong>{username}</strong> Profile
+          </h3>
+        </header>
+  
+        <p>
+          <strong>Id:</strong> {id}
+        </p>
+        <p>
+          <strong>Email:</strong> {email}
+        </p>
+        <strong>Authorities:</strong>
+  
+        </>
+    )
+  }
 
-      <p>
-        <strong>Id:</strong> {id}
-      </p>
-      <p>
-        <strong>Email:</strong> {email}
-      </p>
-      <strong>Authorities:</strong>
-
-      </>
-  )
-}
-
-export default ProfilePage;
+export default AdminPage;

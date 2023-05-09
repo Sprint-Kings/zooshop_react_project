@@ -1,10 +1,15 @@
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import './App.css';
 
 import Header from '../header/Header'
-import {MainPage, ProductsPage, Page404, NewsPage, ProductPage, SingleNewsPage, CategoriesPage, BoardUser, LoginPage, RegistrationPage, ProfilePage} from "../pages";
+
+import {MainPage, Page404, NewsPage, ProductPage, 
+        SingleNewsPage, CategoriesPage, LoginPage, RegistrationPage, 
+        ProfilePage, AdminPage} from "../pages";
+
 import useZooService from "../../services/ZooService";
 import CategoryPage from "../CategoryPage/CategoryPage";
 
@@ -65,12 +70,11 @@ function App() {
                   <Route path="/login" element={<LoginPage/>} />
                   <Route path="/register" element={<RegistrationPage/>} />
                   <Route path="/profile" element={<ProfilePage/>} />
-                  <Route path="/user" element={<BoardUser/>} />
-                  <Route path="/products" element={<ProductsPage/>}/>
                   <Route path="/news" element={<NewsPage/>}/>
                   <Route path="/news/:newsId" element={<SingleNewsPage/>}/>
                   <Route path="/product/:productId" element={<ProductPage/>}/>
                   <Route path="/categories" element={<CategoriesPage/>}/>
+                  <Route path="/admin" element={<AdminPage/>}/>
                   {content}
                   <Route path="*" element={<Page404/>}/>
               </Routes>

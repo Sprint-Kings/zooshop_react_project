@@ -1,6 +1,7 @@
 import { useState} from "react";
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
+import * as Yup from 'yup';
 
 import './loginPage.css';
 import loginImage from '../../img/logIn.jpg';
@@ -14,11 +15,19 @@ const LoginPage = () => {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const validationSchema = Yup.object().shape({
+        username: Yup.string()
+          .required("Введите логин"),
+        password: Yup.string()
+          .required("Введите пароль")
+    });
+
     const formik = useFormik({
         initialValues: {
         username: "",
         password: "",
     },
+    validationSchema,
     onSubmit: (data) => {
         setLoading(true)
         AuthService.login(data.username, data.password).then(
@@ -44,32 +53,44 @@ const LoginPage = () => {
 
     const spinner = loading ? <div className="login-page-container"><Spinner/></div> : null;
     const content = !loading ?
-        <div className="login-page-container">
+        <div className="login-page-container" style={{height: '100vh'}}>
             <div className="login-page-column-1">
                 <div className="login-page-form-container">
                     <h1>Вход</h1>
                     <form  className="login-page-form" onSubmit={formik.handleSubmit}>
                         <div className="login-page-form-group">
-                            <label htmlFor="username">Имя пользователя</label>
+                            <label htmlFor="username">Логин</label>
                             <input
                                 type="text"
                                 name="username"
-                                className="login-page-input"
+                                className={
+                                  (formik.errors.username && formik.touched.username
+                                    ? ' login-page-input-invalid'
+                                    : "login-page-input")
+                                }
                                 value={formik.values.username}
                                 onChange={formik.handleChange}
                             />
-                            <p></p>
+                            <p className="login-page-invalid-message">{formik.errors.username && formik.touched.username
+                                ? formik.errors.username
+                            : null}</p>
                         </div>
                         <div className="login-page-form-group">
                             <label htmlFor="password">Пароль</label>
                             <input
                                 type="password"
                                 name="password"
-                                className="login-page-input"
+                                className={
+                                  (formik.errors.password && formik.touched.password
+                                    ? ' login-page-input-invalid'
+                                    : "login-page-input")
+                                }
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                             />
-                            <p></p>
+                            <p className="login-page-invalid-message">{formik.errors.password && formik.touched.password
+                                ? formik.errors.password
+                            : null}</p>
                         </div>
                         <button className='login-page-button' type="submit">
                             Войти
