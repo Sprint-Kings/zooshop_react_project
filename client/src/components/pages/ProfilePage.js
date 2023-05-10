@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useUserService from '../../services/UserService';
 
+import './profilePage.css';
+
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
@@ -8,7 +10,7 @@ const ProfilePage = () => {
   const [currentUser, setCurrentUser] = useState([])
 
   useEffect(() => {
-    updateNews();
+    updateProfile();
   }, [])
 
   
@@ -20,7 +22,7 @@ const ProfilePage = () => {
       refreshToken().then(
         () => {
           getUserBoard()
-            .then(updateNews);
+            .then(updateProfile);
         },
         (error) => {
           const resMessage =
@@ -35,20 +37,21 @@ const ProfilePage = () => {
     }
   },[error])
 
-  const updateNews = () => {
+  const updateProfile = () => {
     clearError();
     getUserBoard()
-        .then(onNewsLoaded);
+        .then(onProfileLoaded);
   }
 
-  const onNewsLoaded = (news) => {
-      setCurrentUser(news);
+  const onProfileLoaded = (profile) => {
+      setCurrentUser(profile);
       
   }
 
+  console.log(currentUser)
   const errorMessage = error ? <ErrorMessage/> : null;
   const spinner = loading ? <Spinner/> : null;
-  const content = !(loading || error || !currentUser) ? <View news={currentUser}/> : null;
+  const content = !(loading || error || !currentUser) ? <View profile={currentUser}/> : null;
   return (
     <div>
       {errorMessage}
@@ -58,25 +61,21 @@ const ProfilePage = () => {
   );
 };
 
-const View = ({news}) => {
-  const {id, username, email} = news;
+const View = ({profile}) => {
+  const {first_name, last_name, username, email} = profile
   return (
-      <>
-          <header>
-        <h3>
-          <strong>{username}</strong> Profile
-        </h3>
-      </header>
+      <div className="profile-page-container">
+          <div className="profile-page-column-1">
+              <h1>Мой аккаунт</h1>
+              <h2>Имя: {first_name}</h2>
+              <h2>Фамилия: {last_name}</h2>
+              <h2>Логин: {username}</h2>
+              <h2>Почта: {email}</h2>
+          </div>
+          <div className="profile-page-column-2">
 
-      <p>
-        <strong>Id:</strong> {id}
-      </p>
-      <p>
-        <strong>Email:</strong> {email}
-      </p>
-      <strong>Authorities:</strong>
-
-      </>
+          </div>
+      </div>
   )
 }
 

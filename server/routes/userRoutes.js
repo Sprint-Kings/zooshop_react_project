@@ -19,6 +19,24 @@ module.exports = function(app) {
   );
 
   app.get(
+    "/api/user/adresses",
+    [authJwt.verifyToken],
+    controller.userAdresses
+  );
+  
+  app.post(
+    "/api/user/adress/submit",
+    [authJwt.verifyToken],
+    controller.addAdress
+  );
+  
+  app.post(
+    "/api/user/adress/delete",
+    [authJwt.verifyToken],
+    controller.deleteAdress
+  );
+
+  app.get(
     "/api/mod",
     [authJwt.verifyToken, authJwt.isModerator],
     controller.moderatorBoard
