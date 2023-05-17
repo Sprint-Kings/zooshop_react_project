@@ -1,4 +1,7 @@
 const db = require("../models");
+var bcrypt = require("bcryptjs");
+
+const Op = db.Sequelize.Op;
 
 const { user: User, role: Role, refreshToken: RefreshToken, adresses: Adresses } = db;
 
@@ -131,6 +134,93 @@ exports.allAccess = (req, res) => {
       });
   };
   
+  exports.users = (req, res) => {
+    User.findAll()
+      .then(async (users) => {
+        if (!users) {
+          return res.status(404).send({ message: "Произошла ошибка" });
+        }
+        res.status(200).send({users})
+        })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
+  exports.addUser = (req, res) => {
+    User.findOne({
+      where: {
+        username: req.body.username
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          User.findOne({
+            where: {
+              email: req.body.email
+            }
+          })
+          .then(async (user) => {
+            if (!user) {
+              User.create({
+                first_name: req.body.firstName,
+                last_name: req.body.lastName,
+                username: req.body.username,
+                email: req.body.email,
+                password: bcrypt.hashSync(req.body.password, 8)
+              })
+                .then(user => {
+                  if (req.body.roles) {
+                    Role.findAll({
+                      where: {
+                        name: {
+                          [Op.or]: req.body.roles
+                        }
+                      }
+                    }).then(roles => {
+                      user.setRoles(roles).then(() => {
+                        res.send({ message: "Пользователь добавлен" });
+                      });
+                    });
+                  } else {
+                    // user role = 1
+                    user.setRoles([1]).then(() => {
+                      res.send({ message: "Пользователь добавлен с ролью user" });
+                    });
+                  }
+                })
+            } else {
+              res.status(404).send({ message: 'Пользователь с такой почтой уже существует'});
+            }
+          })
+        } else {
+          res.status(404).send({ message: 'Пользователь с таким никнеймом уже существует'});
+        }
+        })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
+  exports.deleteUser = (req, res) => {
+    User.findOne({
+      where: {
+        id: req.body.userId
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          return res.status(404).send({ message: "Пользователь не найден" });
+        } else {
+          await user.destroy();
+          res.send({ message: "Пользователь удален успешно" });
+        }
+        })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
   exports.moderatorBoard = (req, res) => {
     res.status(200).send("Moderator Content.");
   };

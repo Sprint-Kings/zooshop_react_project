@@ -50,6 +50,36 @@ const deleteAdress = (adress) => {
     });
 };
 
+const getUsers = async () => {
+  const res = await request(`${API_URL}admin/users`, authHeader());
+  return res.users;
+}
+
+const addUser = (user) => {
+  return axios
+    .post(API_URL + "admin/users/submit", {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      roles: user.roles ? user.roles : null
+    }, {headers: authHeader()})
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const deleteUser = (id) => {
+  return axios
+    .post(API_URL + "admin/users/delete", {
+      userId: id
+    }, {headers: authHeader()})
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const refreshToken = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   return axios
@@ -77,7 +107,8 @@ return {
   getAdminBoard,
   loading, request, error,
   clearError, refreshToken,
-  getAdresses, addAdress, deleteAdress
+  getAdresses, addAdress, deleteAdress,
+  getUsers, addUser, deleteUser
 };
 }
 export default useUserService;

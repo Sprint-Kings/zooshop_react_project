@@ -47,4 +47,22 @@ module.exports = function(app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );
+
+  app.get(
+    "/api/admin/users",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.users
+  );
+
+  app.post(
+    "/api/admin/users/submit",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.addUser
+  );
+
+  app.post(
+    "/api/admin/users/delete",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.deleteUser
+  );
 };

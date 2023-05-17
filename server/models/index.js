@@ -81,11 +81,11 @@ db.prices.belongsTo(db.products, {
 });
 
 db.user.hasMany(db.adresses, {
-  foreignKey: 'userid',
+  foreignKey: 'userid'
 });
 
 db.adresses.belongsTo(db.user, {
-  foreignKey: 'userid',
+  foreignKey: 'userid'
 });
 
 db.ROLES = ["user", "admin", "moderator"];
