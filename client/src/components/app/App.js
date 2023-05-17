@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 import './App.css';
 
-import Header from '../header/Header'
+import Header from '../header/Header';
+import Footer from '../footer/Footer';
 
 import {MainPage, Page404, NewsPage, ProductPage, 
         SingleNewsPage, CategoriesPage, LoginPage, RegistrationPage, 
@@ -79,6 +80,7 @@ function App() {
                   <Route path="*" element={<Page404/>}/>
               </Routes>
           </main>
+          <Footer/>
       </div>
     </Router>
   );

@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     color:#2a556c;
+    overflow-y: hidden;
 }
 
 .login-page-container h1 {
