@@ -24,7 +24,31 @@ const getAdminBoard = async () => {
   return res;
 }  
 
+const getAdresses = async () => {
+  const res = await request(`${API_URL}user/adresses`, authHeader());
+  console.log(res.adresses)
+  return res.adresses;
+}
 
+const addAdress = (adress) => {
+  return axios
+    .post(API_URL + "user/adress/submit", {
+      adress: adress.adress
+    }, {headers: authHeader()})
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const deleteAdress = (adress) => {
+  return axios
+    .post(API_URL + "user/adress/delete", {
+      adress: adress
+    }, {headers: authHeader()})
+    .then((response) => {
+      return response.data;
+    });
+};
 
 const refreshToken = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -51,7 +75,9 @@ return {
   getUserBoard,
   getModeratorBoard,
   getAdminBoard,
-  loading, request, error, clearError, refreshToken
+  loading, request, error,
+  clearError, refreshToken,
+  getAdresses, addAdress, deleteAdress
 };
 }
 export default useUserService;

@@ -6,7 +6,11 @@
     align-items: center;
     justify-content: center;
     color:#2a556c;
+<<<<<<< Updated upstream
     overflow-y: hidden;
+=======
+    overflow: hidden;
+>>>>>>> Stashed changes
 }
 
 .login-page-container h1 {
