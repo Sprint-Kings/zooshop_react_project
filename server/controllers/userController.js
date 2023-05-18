@@ -64,7 +64,7 @@ exports.allAccess = (req, res) => {
         if (!user) {
           return res.status(404).send({ message: "Пользователь не найден" });
         }
-  
+        console.log(req.body)
         if (req.body.adress) {
             user.createAdress({adress: req.body.adress}).then(() => {
               res.send({ message: "Адресс добавлен успешно" });

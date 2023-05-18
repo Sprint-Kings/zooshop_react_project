@@ -5,18 +5,24 @@ export const useHttp = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const request = useCallback(async (url, header=null, method='get', body=null) => {
+    const request = useCallback(async (url, header=null, method='GET', body=null) => {
 
         setLoading(true);
 
         try {
             let options = {}
-            if (body) {
+            if (body && header) {
+                options = {
+                    method: method,
+                    headers: header,
+                    body: JSON.stringify(body)
+                }
+                console.log(options)
+            } else if (body) {
                 options = {
                     method: method,
                     body: JSON.stringify(body)
                 }
-                console.log(options)
             } else if (header) {
                 options = {
                     method: method,
@@ -27,23 +33,27 @@ export const useHttp = () => {
                     method: method
                 }
             }
+
             const response = await fetch(url, options);
             
             if (response.statusText === 'Forbidden' && response.status === 403) {
                 EventBus.dispatch("logout");  
             }
-
+            
+            
             if (!response.ok) {
-                throw new Error(`Could not fetch ${url}, status: ${response.status}`)
+                const data = await response.json();
+                console.log(data.message)
+                throw new Error(data.message)
             }
 
             const data = await response.json();
+            console.log(data)
             setLoading(false);
             return data;
         } catch(e) {
             setLoading(false);
             setError(e.message);
-            console.log(error)
             throw e;
         }
     }, [])

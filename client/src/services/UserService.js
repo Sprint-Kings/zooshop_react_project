@@ -26,11 +26,10 @@ const getAdminBoard = async () => {
 
 const getAdresses = async () => {
   const res = await request(`${API_URL}user/adresses`, authHeader());
-  console.log(res.adresses)
   return res.adresses;
 }
 
-const addAdress = (adress) => {
+const addAdress1 = (adress) => {
   return axios
     .post(API_URL + "user/adress/submit", {
       adress: adress.adress
@@ -40,7 +39,14 @@ const addAdress = (adress) => {
     });
 };
 
-const deleteAdress = (adress) => {
+const addAdress = async (adress) => {
+    await request(`${API_URL}user/adress/submit`, authHeader(), 'POST', {
+      adress: adress.adress
+    });
+
+};
+
+const deleteAdress1 = (adress) => {
   return axios
     .post(API_URL + "user/adress/delete", {
       adress: adress
@@ -50,12 +56,18 @@ const deleteAdress = (adress) => {
     });
 };
 
+const deleteAdress = async (adress) => {
+    await request(`${API_URL}user/adress/delete`, authHeader(), 'POST', {
+      adress: adress
+    });
+};
+
 const getUsers = async () => {
   const res = await request(`${API_URL}admin/users`, authHeader());
   return res.users;
 }
 
-const addUser = (user) => {
+const addUser1 = (user) => {
   return axios
     .post(API_URL + "admin/users/submit", {
       firstName: user.firstName,
@@ -70,7 +82,20 @@ const addUser = (user) => {
     });
 };
 
-const deleteUser = (id) => {
+const addUser = async (user) => {
+    const res = await request(`${API_URL}admin/users/submit`, authHeader(), 'POST', {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      roles: user.roles ? user.roles : null
+    });
+    console.log(res)
+    return res;
+};
+
+const deleteUser1 = (id) => {
   return axios
     .post(API_URL + "admin/users/delete", {
       userId: id
@@ -80,7 +105,13 @@ const deleteUser = (id) => {
     });
 };
 
-const refreshToken = () => {
+const deleteUser = async (id) => {
+    await request(`${API_URL}admin/users/delete`, authHeader(), 'POST', {
+      userId: id
+    });
+};
+
+const refreshToken1 = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   return axios
     .post(API_URL + "auth/refreshtoken", {
@@ -93,6 +124,15 @@ const refreshToken = () => {
 
       return response.data;
     });
+};
+
+const refreshToken = async () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const res = await request(`${API_URL}auth/refreshtoken`, authHeader(), 'POST', {
+    refreshToken: user.refreshToken
+  });
+  localStorage.setItem("user", JSON.stringify(res));
+  return res.data;
 };
 
 const getModeratorBoard = () => {

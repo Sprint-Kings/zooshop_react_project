@@ -1,26 +1,29 @@
 .admin-page-container {
+    margin-top: 5%;
     display: flex;
     width: 100%;
     min-height: 100vh;
     max-height: 140vh;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     color:#2a556c;
 }
 
 .admin-page-table {
     border-radius: 10px;
-    padding: 3%;
+    padding: 2%;
     width: 100%;
+    table-layout: fixed;
     background-color: white;
     box-shadow: -11px -6px 37px 3px rgba(34, 60, 80, 0.2);
     text-align: left;
     border-spacing: 0;
+    font-size: 3vh;
 }
 
 
-.admin-page-table th {
+.admin-page-table td {
     font-weight: 400;
     padding-left: 10px;
     padding-right: 10px;
@@ -29,26 +32,14 @@
     border-width: 0px 0px 1px 1px;
     border-color: grey;
     border-style: solid;
-}
-
-.admin-page-table button:after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    right: 0;
-    height: 2px;
-    width: 100%;
-    transform: scale(0, 1);
-    transition: transform 0.4s;
-    background: orange;
-    transform-origin: right top;
+    overflow-x: auto;
 }
 
 .admin-page-button {
-    padding: 1%;
-    width: 50%;
+    padding: 2%;
+    width: 80%;
     height: 60%;
-    font-size: 1rem;
+    font-size: 3vh;
     font-weight: 400;
     transition: .2s;
     cursor: pointer;
@@ -67,7 +58,11 @@
     transform: translateY(+3px);
 }
 .admin-page-input {
+    padding-top: 5%;
     border: none;
+    width: 90%;
+    color: #2a556c;
+    font-size: inherit;
 }
 
 .admin-page-input:focus {

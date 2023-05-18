@@ -1,0 +1,19 @@
+.unauthorized-container {
+    margin-top: 5%;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    max-height: 140vh;
+    align-items: center;
+    justify-content: center;
+    color:#2a556c;
+}
+
+.unauthorized-message {
+    border-radius: 15px;
+    padding: 1%;
+    width: 30%;
+    background-color: white;
+    box-shadow: -11px -6px 37px 3px rgba(34, 60, 80, 0.2);
+    font-weight: 600;
+}

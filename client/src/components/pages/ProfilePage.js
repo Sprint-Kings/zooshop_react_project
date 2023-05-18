@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 
 import './profilePage.css';
 
+import Unauthorized from "../unauthorized/Unnauthorized";
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
@@ -39,7 +40,7 @@ const ProfilePage = () => {
   const {loading, error, getUserBoard, clearError, refreshToken, getAdresses, addAdress, deleteAdress} = useUserService();
 
   useEffect(() => {
-    if (error === 'Could not fetch http://localhost:8083/api/user, status: 401') {
+    if (error === 'Unauthorized! Access Token was expired!') {
       refreshToken().then(
         () => {
           getUserBoard()
@@ -93,8 +94,9 @@ const ProfilePage = () => {
             </tr>
   }): <tr><th>У вас пока нет адресов</th></tr>;
 
-  const errorMessage = error ? <ErrorMessage/> : null;
-  const spinner = loading ? <Spinner/> : null;
+  const unauthorized = error === 'Refresh token was expired. Please make a new signin request' ? <Unauthorized/> : null;
+  const errorMessage = error && error !== 'Refresh token was expired. Please make a new signin request'? <ErrorMessage/> : null;
+  const spinner = loading ? <div className="login-page-container"><Spinner/></div> : null;
   const content = !(loading || error || !currentUser) ? 
   <div className="profile-page-container">
           <div className="profile-page-column-1">
@@ -128,6 +130,7 @@ const ProfilePage = () => {
       </div> : null;
   return (
     <div>
+      {unauthorized}
       {errorMessage}
       {spinner}
       {content}

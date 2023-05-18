@@ -11,6 +11,22 @@ body {
   background-color: #efefef;
 }
 
+
+html *::-webkit-scrollbar {
+  height: 1vh;
+  width: 2vh;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(196, 196, 196);
+}
+
+html *::-webkit-scrollbar-thumb {
+  background-color: #2a556c;
+  border-radius: 5px;
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
