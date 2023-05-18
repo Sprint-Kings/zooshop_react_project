@@ -1,0 +1,75 @@
+.admin-page-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    max-height: 140vh;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color:#2a556c;
+}
+
+.admin-page-table {
+    border-radius: 10px;
+    padding: 3%;
+    width: 100%;
+    background-color: white;
+    box-shadow: -11px -6px 37px 3px rgba(34, 60, 80, 0.2);
+    text-align: left;
+    border-spacing: 0;
+}
+
+
+.admin-page-table th {
+    font-weight: 400;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    margin: 0;
+    border-width: 0px 0px 1px 1px;
+    border-color: grey;
+    border-style: solid;
+}
+
+.admin-page-table button:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    height: 2px;
+    width: 100%;
+    transform: scale(0, 1);
+    transition: transform 0.4s;
+    background: orange;
+    transform-origin: right top;
+}
+
+.admin-page-button {
+    padding: 1%;
+    width: 50%;
+    height: 60%;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: .2s;
+    cursor: pointer;
+    text-align: start;
+    color: white;
+    border-radius: 5px;
+    background-color: rgb(172, 8, 8);
+    transition: transform .1s linear;
+}
+
+.admin-page-button:hover {
+    box-shadow: 0 0 15px rgba(0,0,0,.15);
+}
+
+.admin-page-button:active {
+    transform: translateY(+3px);
+}
+.admin-page-input {
+    border: none;
+}
+
+.admin-page-input:focus {
+    outline: none;
+}
