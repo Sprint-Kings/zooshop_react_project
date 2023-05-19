@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useUserService from '../../services/UserService';
 import { useFormik } from "formik";
+import * as Yup from 'yup';
 
 import './adminPage.css';
 
@@ -12,10 +13,25 @@ const AdminPage = () => {
   const [currentUser, setCurrentUser] = useState([])
   const [users, setUsers] = useState([]);
   const [errorSubmit, setErrorSubmit] = useState();
+
+
   useEffect(() => {
     updateNews();
     updateUsers();
   }, [])
+
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .required("Введите никнейм"),
+    firstName: Yup.string()
+      .required('Введите имя'),
+    lastName: Yup.string()
+      .required('Введите фамилию'),
+    email: Yup.string()
+      .required('Введите почту'),
+    password: Yup.string()
+      .required("Введите пароль")
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -25,7 +41,7 @@ const AdminPage = () => {
     email: "",
     password: "",
     roles: ""
-  },
+  }, validationSchema,
   onSubmit: (data) => {
       addUser({
         username: data.username,
@@ -132,53 +148,78 @@ const AdminPage = () => {
               <tr>
                 <td style={{borderLeft: 0}}>
                   <input
-                    className='admin-page-input'
+                    className={
+                      (formik.errors.username && formik.touched.username
+                        ? ' admin-page-input-invalid' : 'admin-page-input')}
                     placeholder="Никнейм"
                     type="text"
                     name="username"
                     value={formik.values.username}
                     onChange={formik.handleChange}
                   />
+                  {formik.errors.username && formik.touched.username
+                    ? <p className="admin-page-invalid-message">{formik.errors.username}</p>
+                  : null}
                 </td>
                 <td>
                   <input
-                    className='admin-page-input'
+                    className={
+                      (formik.errors.firstName && formik.touched.firstName
+                        ? ' admin-page-input-invalid' : 'admin-page-input')}
                     placeholder="Имя"
                     type="text"
                     name="firstName"
                     value={formik.values.firstName}
                     onChange={formik.handleChange}
                   />
+                  {formik.errors.firstName && formik.touched.firstName
+                    ? <p className="admin-page-invalid-message">{formik.errors.firstName}</p>
+                  : null}
                 </td>
                 <td>
                   <input
-                    className='admin-page-input'
+                    className={
+                      (formik.errors.lastName && formik.touched.lastName
+                        ? ' admin-page-input-invalid' : 'admin-page-input')}
                     placeholder="Фамилия"
                     type="text"
                     name="lastName"
                     value={formik.values.lastName}
                     onChange={formik.handleChange}
                   />
+                  {formik.errors.lastName && formik.touched.lastName
+                    ? <p className="admin-page-invalid-message">{formik.errors.lastName}</p>
+                  : null}
                 </td>
                 <td>
                   <input
-                    className='admin-page-input'
+                    className={
+                      (formik.errors.email && formik.touched.email
+                        ? ' admin-page-input-invalid' : 'admin-page-input')}
                     placeholder="Почта"
                     type="text"
                     name="email"
                     value={formik.values.email}
                     onChange={formik.handleChange}
                   />
+                  {formik.errors.email && formik.touched.email
+                    ? <p className="admin-page-invalid-message">{formik.errors.email}</p>
+                  : null}
                 </td>
                 <td>
                   <input
-                    className='admin-page-input'
+                    className='admin-page-input'className={
+                      (formik.errors.password && formik.touched.password
+                        ? ' admin-page-input-invalid' : 'admin-page-input')}
                     placeholder="Пароль"
                     type="text"
                     name="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
                   />
+                  {formik.errors.password && formik.touched.password
+                    ? <p className="admin-page-invalid-message">{formik.errors.password}</p>
+                  : null}
                 </td>
                 <td>
                   <input
@@ -195,7 +236,7 @@ const AdminPage = () => {
             <button type="submit">
               Добавить
             </button>
-            <p>{errorSubmit}</p>
+            <p className='admin-page-invalid-message'>{errorSubmit}</p>
           </form>
       </div> : null;
   return (
