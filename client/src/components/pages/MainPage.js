@@ -14,7 +14,7 @@ const MainPage = () => {
         <div>   
             <HeaderImage image={'/main_image.jpg'} btn={true} title={'Добро пожаловать'}/>
             <BigStory/>
-            <div style={{width: '80%', margin: '0 auto', marginTop: '100px'}}>
+            <div style={{width: '80%', margin: '0 auto', marginTop: '100px', color: '#2a556c'}}>
                 <h1>Читайте</h1>
                 <Carousel>
                     <NewsCart id={1}/>
@@ -24,11 +24,13 @@ const MainPage = () => {
                     <NewsCart id={5}/>
                     <NewsCart id={5}/>
                 </Carousel>
+                <h1>Наши товары</h1>
                 <Carousel>
                     <ProductCart id={1}/>
                     <ProductCart id={2}/>
                     <ProductCart id={3}/>
                     <ProductCart id={4}/>
+                    <ProductCart id={18}/>
                 </Carousel>
             </div>
         </div>

@@ -5,18 +5,16 @@ import * as Yup from 'yup';
 
 import './adminPage.css';
 
+import Page404 from "./404";
 import Unauthorized from "../unauthorized/Unnauthorized";
-import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
 const AdminPage = () => {
-  const [currentUser, setCurrentUser] = useState([])
+
   const [users, setUsers] = useState([]);
   const [errorSubmit, setErrorSubmit] = useState();
 
-
   useEffect(() => {
-    updateNews();
     updateUsers();
   }, [])
 
@@ -42,7 +40,7 @@ const AdminPage = () => {
     password: "",
     roles: ""
   }, validationSchema,
-  onSubmit: (data) => {
+  onSubmit: (data, helpers) => {
       addUser({
         username: data.username,
         firstName: data.firstName,
@@ -54,35 +52,33 @@ const AdminPage = () => {
           () => {  
               updateUsers();
           }
+          
       );
+      if (!error) {
+        helpers.resetForm({
+          data,
+      });
+      }
   }});
   
-  const {loading, error, getAdminBoard, clearError, refreshToken, getUsers, addUser, deleteUser} = useUserService();
+  const {loading, error, clearError, refreshToken, getUsers, addUser, deleteUser} = useUserService();
 
   useEffect(() => {
-    if (error === 'Unauthorized! Access Token was expired!') {
+    if (error === 'Unauthorized! Access Token was expired!' || error === 'Failed to fetch' || error === 'Require Admin Role!') {
       refreshToken().then(
         () => {
-          getAdminBoard()
-            .then(updateNews);
+          updateUsers()
         }
       );
-    } else {
+    } 
+    else {
       setErrorSubmit(error)
     }
     
     
   },[error])
 
-  const updateNews = () => {
-    clearError();
-    getAdminBoard()
-        .then(onNewsLoaded);
-  }
 
-  const onNewsLoaded = (news) => {
-      setCurrentUser(news);
-  }
 
   const updateUsers= () => {
     clearError();
@@ -98,15 +94,6 @@ const AdminPage = () => {
     deleteUser(id).then(
       () => {
       updateUsers();
-      },
-      (error) => {
-        const resMessage =
-        (error.response &&
-        error.response.data &&
-        error.response.data.message) ||
-        error.message ||
-        error.toString();
-        setErrorSubmit(resMessage)
       })
     }
 
@@ -129,9 +116,9 @@ const AdminPage = () => {
   }): () => updateUsers();
 
   const unauthorized = error === 'Refresh token was expired. Please make a new signin request' ? <Unauthorized/> : null;
-  const errorMessage = error && !errorSubmit && error !== 'Refresh token was expired. Please make a new signin request' ? <ErrorMessage/> : null;
+  const errorMessage = error && !errorSubmit && error !== 'Refresh token was expired. Please make a new signin request' ? <Page404/> : null;
   const spinner = loading ? <div className="login-page-container"><Spinner/></div>: null;
-  const content = !(loading || (error && !errorSubmit) || !currentUser) ? 
+  const content = !(loading || (error && (errorSubmit === 'Refresh token was expired. Please make a new signin request' || errorSubmit === null))) ? 
   <div className="admin-page-container">
             <h1>Список пользователей</h1>
             <form onSubmit={formik.handleSubmit} style={{width: '80%'}}>
@@ -208,7 +195,7 @@ const AdminPage = () => {
                 </td>
                 <td>
                   <input
-                    className='admin-page-input'className={
+                    className={
                       (formik.errors.password && formik.touched.password
                         ? ' admin-page-input-invalid' : 'admin-page-input')}
                     placeholder="Пароль"
@@ -224,7 +211,7 @@ const AdminPage = () => {
                 <td>
                   <input
                     className='admin-page-input'
-                    placeholder="Роли"
+                    placeholder="Роли (необяз)"
                     type="text"
                     name="roles"
                     value={formik.values.roles}
@@ -233,7 +220,7 @@ const AdminPage = () => {
                 </td>
               </tr>
             </table>
-            <button type="submit">
+            <button className='admin-page-button-submit' type="submit">
               Добавить
             </button>
             <p className='admin-page-invalid-message'>{errorSubmit}</p>

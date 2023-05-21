@@ -58,9 +58,9 @@ const View = ({news}) => {
                 height: '300px', 
                 width: '50%', 
                 margin: '0 auto', marginBottom: '50px'}}>
-                <NewsCart id={1}/>
-                <NewsCart id={1}/>
-                <NewsCart id={1}/>
+                <NewsCart id={3}/>
+                <NewsCart id={2}/>
+                <NewsCart id={4}/>
             </div>
                     
         </div>

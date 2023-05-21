@@ -1,10 +1,10 @@
 import './unauthorized.css';
 
-const Unauthorized = () => {
+const Unauthorized = ({message = 'Похоже, время вашей сессии истекло. Пожалуйста, перезайдите в свой аккаунт'}) => {
     return (
         <div className='unauthorized-container'>
             <div className='unauthorized-message'>
-                <h2>Похоже, время вашей сессии истекло. Пожалуйста, перезайдите в свой аккаунт</h2>
+                <h2>{message}</h2>
             </div>
         </div>
     )

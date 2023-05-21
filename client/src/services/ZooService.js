@@ -26,7 +26,7 @@ const useZooService = () => {
         return {
             id: product.product_id,
             name: product.name,
-            description: product.description ? `${product.description.slice(0, 210)}...` : 'There is no description for this product',
+            description: product.description ? product.description : 'Для этого товара нет описания',
             thumbnail: product.thumbnail,
             color: product.color,
             brand: product.brand,

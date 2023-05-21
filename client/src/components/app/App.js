@@ -7,9 +7,9 @@ import './App.css';
 import Header from '../header/Header';
 import Footer from '../footer/Footer';
 
-import {MainPage, Page404, NewsPage, ProductPage, 
+import {MainPage, Page404, ProductPage, 
         SingleNewsPage, CategoriesPage, LoginPage, RegistrationPage, 
-        ProfilePage, AdminPage} from "../pages";
+        ProfilePage, AdminPage, CartPage, OrderPage, NewsListPage} from "../pages";
 
 import useZooService from "../../services/ZooService";
 import CategoryPage from "../CategoryPage/CategoryPage";
@@ -71,11 +71,13 @@ function App() {
                   <Route path="/login" element={<LoginPage/>} />
                   <Route path="/register" element={<RegistrationPage/>} />
                   <Route path="/profile" element={<ProfilePage/>} />
-                  <Route path="/news" element={<NewsPage/>}/>
                   <Route path="/news/:newsId" element={<SingleNewsPage/>}/>
                   <Route path="/product/:productId" element={<ProductPage/>}/>
                   <Route path="/categories" element={<CategoriesPage/>}/>
                   <Route path="/admin" element={<AdminPage/>}/>
+                  <Route path="/cart" element={<CartPage/>}/>
+                  <Route path="/order/:id" element={<OrderPage/>}/>
+                  <Route path="/news/all" element={<NewsListPage/>}/>
                   {content}
                   <Route path="*" element={<Page404/>}/>
               </Routes>

@@ -1,0 +1,196 @@
+.product-page-container {
+    margin-top: 5%;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    align-items: flex-start;
+    justify-content: center;
+    color:#2a556c;
+}
+
+.product-page-column-1 {
+    margin-top: 5%;
+    display: flex;
+    flex: 0 1 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-page-column-1 > img {
+    padding: 10px;
+    border-radius: 15px;
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.product-page-column-2 {
+    margin: 5% 5% 0 5%;
+    display: flex;
+    flex: 0 1 50%;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.product-page-section-1 {
+    margin-top: 5%;
+    display: flex;
+    width: 100%;
+}
+
+.product-page-section-2 {
+    margin-top: 5%;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-page-button-container {
+    display: flex;
+    flex: 0 1 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-page-button-in-cart {
+    height: 50%;
+    width: 90%;
+    border-radius: 5px;
+    background-color: #F8BC48;
+    color: #2a556c;
+    font-size: calc( (100vw - 1rem)/70);
+    border: none;
+    font-weight: 600;
+    transition: all .2s linear;
+}
+
+.product-page-button-in-cart:hover {
+    background-color: #2a556c;
+    color: white;
+}
+
+.product-page-button-in-cart:active {
+    transition: all .1s linear;
+    background-color: #F8BC48;
+    color: #2a556c;
+}
+
+.product-page-button-not-stock {
+    height: 50%;
+    width: 90%;
+    border-radius: 5px;
+    background-color: #2a556c;
+    color: white;
+    font-size: calc( (100vw - 1rem)/70);
+    border: none;
+    font-weight: 600;
+}
+
+.product-page-count-container {
+    margin: 3%;
+    display: flex;
+    flex: 0 1 50%;
+    height: 10vh;
+    background-color: white;
+}
+
+.product-page-count-minus {
+    display: flex;
+    flex: 0 1 20%;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: gray;
+    transition: all .2s linear;
+    font-family: 'Scada';
+    color: #2a556c;
+    font-weight: 400;
+    font-size: calc( (100vw - 1rem)/70);
+}
+
+.product-page-count-plus {
+    display: flex;
+    flex: 0 1 20%;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: gray;
+    transition: all .2s linear;
+    font-family: 'Scada';
+    color: #2a556c;
+    font-weight: 400;
+    font-size: calc( (100vw - 1rem)/70);
+}
+
+.product-page-count-number {
+    display: flex;
+    flex: 0 1 60%;
+    justify-content: center;
+    align-items: center;
+    border-width: 0;
+    border-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: gray;
+    font-size: calc( (100vw - 1rem)/70);
+}
+
+.product-page-count-plus:hover {
+    background-color: #2a556c;
+    color: white;
+}
+
+.product-page-count-plus:active {
+    transition: all .1s linear;
+    background-color: white;
+    color: #2a556c;
+}
+
+.product-page-count-minus:hover {
+    background-color: #2a556c;
+    color: white;
+}
+
+.product-page-count-minus:active {
+    transition: all .1s linear;
+    background-color: white;
+    color: #2a556c;
+}
+
+
+.product-page-price-container {
+    display: flex;
+    flex: 0 1 50%;
+}
+
+.product-page-color-container {
+    margin: 0 auto;
+    display: flex;
+    flex: 0 1 50%;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    text-align: center;
+}
+
+.product-page-color-container > p {
+    margin: 5px 5px 5px 3%;
+    border-radius: 5px;
+    border-color: #F8BC48;
+    border-style: solid;
+    border-width: 2px;
+    padding: 10px;
+
+    font-weight: 500;
+}
+
+.product-page-color-container > span {
+    margin-left: 3%;
+}

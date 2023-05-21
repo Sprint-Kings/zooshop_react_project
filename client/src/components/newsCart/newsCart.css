@@ -30,7 +30,7 @@
     flex: 0 1 90%;
 }
 
-.news-cart-column-1 > img {
+.news-cart-column-1 img {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     width: 100%;

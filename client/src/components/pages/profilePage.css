@@ -1,9 +1,9 @@
 .profile-page-container {
+    margin-top: 5%;
     display: flex;
     width: 100%;
     min-height: 100vh;
-    max-height: 140vh;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     color:#2a556c;
 }
@@ -13,19 +13,19 @@
 }
 
 .profile-page-column-1 {
+    margin-top: 5%;
     padding-left: 5%;
-    height: inherit;
     display: flex;
-    flex: 0 0 50%;
+    flex: 0 0 40%;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
 }
 
 .profile-page-column-2 {
+    margin-top: 5%;
     display: flex;
-    flex: 0 0 50%;
-    height: inherit;
+    flex: 0 0 60%;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
@@ -33,54 +33,60 @@
 
 .profile-page-table {
     border-radius: 10px;
-    padding: 3%;
+    padding: 2%;
     width: 100%;
+    table-layout: fixed;
     background-color: #2a556c;
+    box-shadow: -11px -6px 37px 3px rgba(34, 60, 80, 0.2);
+    text-align: center;
+    border-spacing: 0;
+    font-size: 3vh;
     color: white;
 }
 
-.profile-page-table button:after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    right: 0;
-    height: 2px;
-    width: 100%;
-    transform: scale(0, 1);
-    transition: transform 0.4s;
-    background: orange;
-    transform-origin: right top;
+.profile-page-table td {
+    font-weight: 400;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0;
+    overflow-x: auto;
+}
+
+.profile-page-table td::-webkit-scrollbar-track {
+    background: rgb(196, 196, 196);
+    border-radius: 5px;
+}
+  
+.profile-page-table td::-webkit-scrollbar-thumb {
+  background-color: #F8BC48;
+  border-radius: 5px;
+}
+
+.profile-page-table tr:hover {
+    transition: all .2s linear;
+    box-shadow: 0 0 15px rgba(0,0,0,.15);
 }
 
 .profile-page-button {
+    padding: 2%;
+    width: 80%;
     height: 60%;
-    color: white;
-    font-size: 1rem;
+    font-size: 3vh;
     font-weight: 400;
     transition: .2s;
     cursor: pointer;
-    text-align: start;
+    text-align: center;
+    color: white;
+    border-radius: 5px;
+    background-color: rgb(172, 8, 8);
+    transition: transform .1s linear;
 }
 
 .profile-page-button:hover {
     box-shadow: 0 0 15px rgba(0,0,0,.15);
-    background: rgba(0,0,0,.20);
 }
 
-.profile-page-button:after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    right: 0;
-    height: 2px;
-    width: 100%;
-    transform: scale(0, 1);
-    transition: transform 0.4s;
-    background: orange;
-    transform-origin: right top;
+.profile-page-button:active {
+    transform: translateY(+3px);
 }
 
-.profile-page-button:hover:after {
-    transform: scale(1, 1);
-    transform-origin: left top;
-}

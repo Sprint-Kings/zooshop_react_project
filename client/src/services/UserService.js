@@ -29,6 +29,52 @@ const getAdresses = async () => {
   return res.adresses;
 }
 
+const getCart = async () => {
+  const res = await request(`${API_URL}user/cart`, authHeader());
+  return res;
+}
+
+const addCart = async (productId, count) => {
+  const res = await request(`${API_URL}user/cart/submit`, authHeader(), 'POST', {
+    productId: productId,
+    count: count
+  });
+  return res.message;
+};
+
+const deleteCart = async (productId) => {
+  const res = await request(`${API_URL}user/cart/delete`, authHeader(), 'POST', {
+    productId: productId
+  });
+  return res;
+};
+
+const getOrders = async () => {
+  const res = await request(`${API_URL}user/orders`, authHeader());
+  return res;
+}
+
+const getOrder = async (id) => {
+  const res = await request(`${API_URL}user/order/${id}`, authHeader());
+  return res;
+}
+
+const addOrder = async (adress, total) => {
+  const res = await request(`${API_URL}user/order/submit`, authHeader(), 'POST', {
+    adress: adress,
+    total: total
+  });
+  return res.message;
+};
+
+const deleteOrder = async (orderId) => {
+  const res = await request(`${API_URL}user/order/delete`, authHeader(), 'POST', {
+    orderId: orderId
+  });
+  return res.message;
+};
+
+
 const addAdress1 = (adress) => {
   return axios
     .post(API_URL + "user/adress/submit", {
@@ -43,7 +89,6 @@ const addAdress = async (adress) => {
     await request(`${API_URL}user/adress/submit`, authHeader(), 'POST', {
       adress: adress.adress
     });
-
 };
 
 const deleteAdress1 = (adress) => {
@@ -148,7 +193,8 @@ return {
   loading, request, error,
   clearError, refreshToken,
   getAdresses, addAdress, deleteAdress,
-  getUsers, addUser, deleteUser
+  getUsers, addUser, deleteUser,
+  getCart, addCart, deleteCart, addOrder, getOrders, deleteOrder, getOrder
 };
 }
 export default useUserService;

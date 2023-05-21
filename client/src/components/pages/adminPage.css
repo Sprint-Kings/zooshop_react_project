@@ -57,6 +57,7 @@
 .admin-page-button:active {
     transform: translateY(+3px);
 }
+
 .admin-page-input {
     padding-top: 5%;
     border: none;
@@ -91,6 +92,31 @@
 
 .admin-page-invalid-message {
     margin: 1%;
-    font-size: calc( (100vw - 1rem)/100);
+    font-size: calc( (100vw - 1rem)/80);
     color: #dc3545;
+}
+
+.admin-page-button-submit {
+    margin-top: 2%;
+    padding: 1% 2% 1% 2%;
+    background-color: #F8BC48;
+    color: #2F3C43;
+    border: none;
+    font-size: calc( (100vw - 1rem)/70);
+    font-weight: bold;
+    font-family: 'Scada',  sans-serif;
+    border-radius: 4px;
+    transition: all .2s ease-in-out;
+}
+
+.admin-page-button-submit:hover {
+    background-color: #2a556c;
+    color: white;
+}
+
+.admin-page-button-submit:active {
+    transition: all .1s ease-in-out;
+    background-color: #F8BC48;
+    color: #2F3C43;
+    
 }

@@ -35,6 +35,48 @@ module.exports = function(app) {
     [authJwt.verifyToken],
     controller.deleteAdress
   );
+  
+  app.get(
+    "/api/user/cart",
+    [authJwt.verifyToken],
+    controller.userCart
+  );
+
+  app.post(
+    "/api/user/cart/submit",
+    [authJwt.verifyToken],
+    controller.addCart
+  );
+
+  app.post(
+    "/api/user/cart/delete",
+    [authJwt.verifyToken],
+    controller.deleteCart
+  );
+  
+  app.get(
+    "/api/user/orders",
+    [authJwt.verifyToken],
+    controller.userOrders
+  );
+
+  app.get(
+    "/api/user/order/:id",
+    [authJwt.verifyToken],
+    controller.userOrder
+  );
+
+  app.post(
+    "/api/user/order/submit",
+    [authJwt.verifyToken],
+    controller.addOrder
+  );
+  
+  app.post(
+    "/api/user/order/delete",
+    [authJwt.verifyToken],
+    controller.deleteOrder
+  );
 
   app.get(
     "/api/mod",

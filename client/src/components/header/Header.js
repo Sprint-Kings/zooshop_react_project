@@ -63,37 +63,37 @@ function Header() {
 
                 <div className='navigation'>
                         <button onClick={() => setStyle(style => !style)}><h3>Магазин</h3></button>
-                        <button><h3>Новости</h3></button>
-                        <button><h3>О нас</h3></button>
+                        <Link to={'/news/all'} style={{ textDecoration: 'none', color: 'black'}} onClick={() => setStyle(style => style ? !style : style)}><button><h3>Новости</h3></button></Link>
+                        <Link to={'/news/all'} style={{ textDecoration: 'none', color: 'black'}} onClick={() => setStyle(style => style ? !style : style)}><button><h3>О нас</h3></button></Link>
                 </div>
 
                 <div className='icon-menu'>
                     {currentUser !== false ? (
                         <>
                             {showAdminBoard ? 
-                            <Link to={'/admin'} style={{ textDecoration: 'none'}} className='container-icon-image'>  
+                            <Link to={'/admin'} style={{ textDecoration: 'none'}} className='container-icon-image' onClick={() => setStyle(style => style ? !style : style)}>  
                                 <img className='icon-image' src={admin} alt='user'></img>
                                 <p>Админ</p>
                             </Link> : null}
-                            <Link to={'/profile'} style={{ textDecoration: 'none'}} className='container-icon-image'>  
+                            <Link to={'/cart'} style={{ textDecoration: 'none'}} className='container-icon-image' onClick={() => setStyle(style => style ? !style : style)}>  
                                     <img className='icon-image' src={cart} alt='user'></img>
                                     <p>Корзина</p>
                             </Link>
-                            <Link to={'/profile'} style={{ textDecoration: 'none'}} className='container-icon-image'>
+                            <Link to={'/profile'} style={{ textDecoration: 'none'}} className='container-icon-image' onClick={() => setStyle(style => style ? !style : style)}>
                                 <img className='icon-image' src={user} alt='user'></img>
                                 <p>{currentUser}</p>
                             </Link>
-                            <Link to={'/'} style={{ textDecoration: 'none'}} onClick={logOut} className='container-icon-image'>
+                            <Link to={'/'} style={{ textDecoration: 'none'}} onClick={() => {logOut(); setStyle(style => style ? !style : style)}} className='container-icon-image'>
                                 <img className='icon-image' src={signOut} alt='favor'></img>
                                 <p>Выход</p>
                             </Link> 
                         </>) : (
                         <>
-                            <Link to={'/login'} style={{ textDecoration: 'none'}} className='container-icon-image'>
+                            <Link to={'/login'} style={{ textDecoration: 'none'}} className='container-icon-image' onClick={() => setStyle(style => style ? !style : style)}>
                                 <img className='icon-image' src={signIn} alt='user'></img>
                                 <p>Вход</p>
                             </Link>
-                            <Link to={'/register'} style={{ textDecoration: 'none'}} className='container-icon-image'>
+                            <Link to={'/register'} style={{ textDecoration: 'none'}} className='container-icon-image' onClick={() => setStyle(style => style ? !style : style)}>
                                 <img className='icon-image' src={signUp} alt='favor'></img>
                                 <p>Регистрация</p>
                             </Link> 

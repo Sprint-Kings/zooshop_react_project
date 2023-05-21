@@ -44,9 +44,7 @@ const CategoryPage = ({category, title, subtitle=false}) => {
             }
         } else {
             console.log(fullProductList)
-            console.log('hier')
             const addFilter = [...filter, singleFilter]
-            
             setFilter(addFilter)
             setProductList(fullProductList)
         }
@@ -121,9 +119,7 @@ const CategoryPage = ({category, title, subtitle=false}) => {
         <HeaderImage image={'/dryFood.png'} title={title} subtitle={subtitle}/>
         <div className='category-page-container'>
             <div className='category-page-column-1'>
-                <div className='category-page-column-1-color-filter'>
-                    <ColorFilter updateFilter={updateFilter}/>
-                </div>
+
                 <div className='category-page-column-1-brand-filter'>
                     <BrandFilter clearAll={clearAll} updateFilter={updateFilter} category={category}/>
 
@@ -136,9 +132,10 @@ const CategoryPage = ({category, title, subtitle=false}) => {
                 <div className='category-page-column-2-load-button'>
                     <button 
                         disabled={newItemLoading}
+                        className='admin-page-button-submit'
                         style={{'display': productEnded ? 'none' : 'block'}}
                         onClick={() => onRequest(offset)}>
-                        <div>load more</div>
+                        <div>Загрузить еще</div>
                     </button>
                 </div>
             </div>

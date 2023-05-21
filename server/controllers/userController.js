@@ -3,7 +3,7 @@ var bcrypt = require("bcryptjs");
 
 const Op = db.Sequelize.Op;
 
-const { user: User, role: Role, refreshToken: RefreshToken, adresses: Adresses } = db;
+const { user: User, role: Role, refreshToken: RefreshToken, adresses: Adresses, cart: Cart, orders: Orders } = db;
 
 exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
@@ -70,7 +70,7 @@ exports.allAccess = (req, res) => {
               res.send({ message: "Адресс добавлен успешно" });
             });
         } else {
-            res.send({ message: "При добавлении адреса произошла ошибка" });
+            res.status(404).send({ message: "При добавлении адреса произошла ошибка" });
         }
       })
       .catch(err => {
@@ -103,7 +103,7 @@ exports.allAccess = (req, res) => {
               }
           })
         } else {
-            res.send({ message: "При удалении адреса произошла ошибка" });
+            res.status(404).send({ message: "При удалении адреса произошла ошибка" });
         }
         })
       .catch(err => {
@@ -111,6 +111,198 @@ exports.allAccess = (req, res) => {
       });
   };
 
+  exports.userCart = (req, res) => {
+    User.findOne({
+      where: {
+        id: req.userId
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          return res.status(404).send({ message: "Пользователь не найден" });
+        }
+        const cart = await user.getCarts('product_id', 'count')
+        res.status(200).send(cart);
+        })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
+  exports.addCart = (req, res) => {
+    User.findOne({
+      where: {
+        id: req.userId
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          return res.status(404).send({ message: "Пользователь не найден" });
+        }
+        if (req.body.productId && req.body.count) {
+            Cart.findOne({
+              where: {
+                product_id: req.body.productId,
+                userid: req.userId
+              }
+            })
+            .then(async (product) => {
+              if (!product) {
+                user.createCart({product_id: req.body.productId, count: req.body.count}).then(() => {
+                  res.send({ message: "Товар добавлен в корзину" });
+                });
+              } else {
+                product.count = product.count + Number(req.body.count);
+
+                product.save()
+                  .then(res.send({ message: "Количество товара изменено" }))
+              }
+            })
+        } else {
+            res.status(404).send({ message: "При добавлении товара в корзину произошла ошибка" });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
+  exports.deleteCart = (req, res) => {
+    User.findOne({
+      where: {
+        id: req.userId
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          return res.status(404).send({ message: "Пользователь не найден" });
+        }
+        if (req.body.productId) {
+          Cart.findOne({
+            where: {
+              product_id: req.body.productId,
+              userid: req.userId
+            }
+          }).then(async (product) => {
+              if (!product) {
+                return res.status(404).send({ message: "Товар не найден" });
+              } else {
+                await product.destroy();
+                res.send({ message: "Товар удален из корзины" });
+              }
+          })
+        } else {
+            res.status(404).send({ message: "При удалении товара из корзины произошла ошибка" });
+        }
+        })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
+  exports.userOrders = (req, res) => {
+    User.findOne({
+      where: {
+        id: req.userId
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          return res.status(404).send({ message: "Пользователь не найден" });
+        }
+        const orders = await user.getOrders()
+        res.status(200).send(orders);
+        })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
+  exports.userOrder = (req, res) => {
+    User.findOne({
+      where: {
+        id: req.userId
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          return res.status(404).send({ message: "Пользователь не найден" });
+        }
+
+        const order = await Orders.findOne({ where: { id: req.params.id } })
+        res.status(200).send(order);
+        })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
+  exports.addOrder = (req, res) => {
+    User.findOne({
+      where: {
+        id: req.userId
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          return res.status(404).send({ message: "Пользователь не найден" });
+        } else {
+          if (req.body.adress && req.body.total) {
+            const cart = await user.getCarts('product_id', 'count')
+            const products = cart.map(item => (item.product_id))
+            const counts = cart.map(item => (item.count))
+            user.createOrder({product_array: products, count_array: counts, total: req.body.total, delivery_date: '24.05.2023', adress: req.body.adress}).then(() => {
+              Cart.destroy({
+                where: {
+                  userid: req.userId
+                }
+              }).then(async () => {
+                    res.send({ message: "Заказ создан" });
+                  })
+            });
+          } else {
+            res.status(404).send({ message: "При создании заказа произошла ошибка" });
+          }
+          
+        }
+      })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
+
+  exports.deleteOrder = (req, res) => {
+    User.findOne({
+      where: {
+        id: req.userId
+      }
+    })
+      .then(async (user) => {
+        if (!user) {
+          return res.status(404).send({ message: "Пользователь не найден" });
+        }
+        if (req.body.orderId) {
+          Orders.findOne({
+            where: {
+              id: req.body.orderId,
+              userid: req.userId
+            }
+          }).then(async (order) => {
+              if (!order) {
+                return res.status(404).send({ message: "Заказ не найден" });
+              } else {
+                await order.destroy();
+                res.send({ message: "Заказ отменен" });
+              }
+          })
+        } else {
+            res.status(404).send({ message: "При отмене заказа произошла ошибка" });
+        }
+        })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });
+  };
   exports.adminBoard = (req, res) => {
     User.findOne({
       where: {
